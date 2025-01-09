@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
+#include <QVBoxLayout>
+#include "GameWidget.h"
+#include "MainWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,10 +20,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-signals:
-    void switchToGame();
-
 private:
     Ui::MainWindow *ui;
+    MainWidget *mainWidget;
+    GameWidget *gameWidget;
+    QStackedWidget *stackedWidget;
 };
 #endif // MAINWINDOW_H

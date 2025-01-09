@@ -3,8 +3,15 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::switchToGame);
+    mainWidget = new MainWidget;
+    gameWidget = new GameWidget;
+    stackedWidget = new QStackedWidget;
+    stackedWidget->addWidget(mainWidget);
+    stackedWidget->addWidget(gameWidget);
+    setCentralWidget(stackedWidget);
+
+    connect(mainWidget, &MainWidget::toGamePage, [this](){stackedWidget->setCurrentIndex(1);});
+    connect(gameWidget, &GameWidget::toMainPage, [this](){stackedWidget->setCurrentIndex(0);});
 }
 
 MainWindow::~MainWindow() { delete ui; }
-

@@ -23,8 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(CarrotFantasy
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        WindowManager.h WindowManager.cpp
-        GameWindow.h GameWindow.cpp GameWindow.ui
+        MainWidget.h MainWidget.cpp MainWidget.ui
+        GameWidget.h GameWidget.cpp GameWidget.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET CarrotFantasy APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
