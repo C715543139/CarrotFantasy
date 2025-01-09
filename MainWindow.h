@@ -16,6 +16,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void switchToGame();
+
 private:
     Ui::MainWindow *ui;
 };
