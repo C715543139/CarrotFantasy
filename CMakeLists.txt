@@ -14,17 +14,19 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        MainWindow.cpp
-        MainWindow.h
-        MainWindow.ui
+        Window/MainWindow.cpp
+        Window/MainWindow.h
+        Window/MainWindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(CarrotFantasy
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        MainWidget.h MainWidget.cpp MainWidget.ui
-        GameWidget.h GameWidget.cpp GameWidget.ui
+            Window/MainWidget.h Window/MainWidget.cpp Window/MainWidget.ui
+            Window/GameWidget.h Window/GameWidget.cpp Window/GameWidget.ui
+            Resource/Resource.qrc
+            Window/WindowTool.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET CarrotFantasy APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

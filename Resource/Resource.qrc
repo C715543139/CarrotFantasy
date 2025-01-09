@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>MainScene/mainBg.gif</file>
+        <file>MainScene/startBtn.png</file>
+        <file>MainScene/startBtnP.png</file>
+        <file>Game/Framework/continueBtn.png</file>
+        <file>Game/Framework/continueBtnP.png</file>
+        <file>Game/Framework/menuBtn.png</file>
+        <file>Game/Framework/menuBtnP.png</file>
+        <file>Game/Framework/pauseBtn.png</file>
+        <file>Game/Framework/pauseBtnP.png</file>
+        <file>Game/Framework/menuBg.png</file>
+        <file>Game/Framework/menuCenter.png</file>
+    </qresource>
+</RCC>
