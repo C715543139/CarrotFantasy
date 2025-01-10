@@ -5,6 +5,7 @@
 #include <QStackedWidget>
 #include "GameWidget.h"
 #include "MainWidget.h"
+#include "SelectWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,6 +23,7 @@ public:
 private:
     Ui::MainWindow *ui;
     MainWidget *mainWidget; // 主页面
+    SelectWidget *selectWidget;
     GameWidget *gameWidget; // 游戏页面
     QStackedWidget *stackedWidget; // 页面管理器
 };

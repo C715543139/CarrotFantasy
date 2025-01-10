@@ -27,6 +27,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             Window/GameWidget.h Window/GameWidget.cpp Window/GameWidget.ui
             Resource/Resource.qrc
             Window/WindowTool.h
+            Window/SelectWidget.h Window/SelectWidget.cpp Window/SelectWidget.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET CarrotFantasy APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

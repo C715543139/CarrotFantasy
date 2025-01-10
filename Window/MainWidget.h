@@ -17,7 +17,7 @@ public:
     ~MainWidget();
 
 signals:
-    void toGamePage();
+    void toSelectPage();
 
 private:
     Ui::MainWidget *ui;

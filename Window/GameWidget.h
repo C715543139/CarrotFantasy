@@ -15,7 +15,7 @@ public:
     ~GameWidget();
 
 signals:
-    void toMainPage();
+    void toSelectPage();
 
 private slots:
     void on_pauseBtn_clicked();

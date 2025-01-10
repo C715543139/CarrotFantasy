@@ -14,7 +14,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
                      ":/res/MainScene/startBtn.png",
                      ":/res/MainScene/startBtnP.png");
 
-    connect(ui->startBtn, SIGNAL(clicked()), this, SIGNAL(toGamePage()));
+    connect(ui->startBtn, SIGNAL(clicked()), this, SIGNAL(toSelectPage()));
 }
 
 MainWidget::~MainWidget() {

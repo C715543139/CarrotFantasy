@@ -11,5 +11,6 @@
         <file>Game/Framework/pauseBtnP.png</file>
         <file>Game/Framework/menuBg.png</file>
         <file>Game/Framework/menuCenter.png</file>
+        <file>Game/Framework/gameBg.png</file>
     </qresource>
 </RCC>
