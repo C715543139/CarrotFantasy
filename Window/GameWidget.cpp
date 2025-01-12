@@ -4,7 +4,7 @@
 GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget), isPause(false) {
     ui->setupUi(this);
 
-    // 背景
+    // 游戏背景
     ui->background->setStyleSheet("background-image: url(:/res/Game/Framework/gameBg.png);");
 
     // 暂停按钮背景

@@ -4,7 +4,7 @@
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
     ui->setupUi(this);
 
-    // 设置主页面背景
+    // 主页面背景
     movie = new QMovie(":/res/MainScene/mainBg.gif");
     ui->background->setMovie(movie);
     movie->start();

@@ -1,7 +1,11 @@
 #ifndef SELECTWIDGET_H
 #define SELECTWIDGET_H
 
-#include <QWidget>
+#include <QLabel>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
+#include <QMessageBox>
+#include "WindowTool.h"
 
 namespace Ui {
     class SelectWidget;
@@ -21,5 +25,26 @@ signals:
 private:
     Ui::SelectWidget *ui;
 };
+
+class Slideshow : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit Slideshow(QWidget *parent = nullptr);
+    void addImage(const QString &path);
+    void nextImage();
+    void previousImage();
+    ~Slideshow();
+
+private:
+    QLabel *currentLabel;
+    QLabel *nextLabel;
+    QList<QPixmap> images;
+    int currentIndex = 0;
+    bool isAnimating = false;
+
+    void switchToImage(int newIndex, bool forward);
+};
+
 
 #endif // SELECTWIDGET_H

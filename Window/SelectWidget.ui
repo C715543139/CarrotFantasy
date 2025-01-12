@@ -37,7 +37,7 @@
      <x>0</x>
      <y>0</y>
      <width>1080</width>
-     <height>51</height>
+     <height>80</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -49,8 +49,26 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QPushButton" name="backBtn">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>66</width>
+        <height>58</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>66</width>
+        <height>58</height>
+       </size>
+      </property>
       <property name="text">
-       <string>PushButton</string>
+       <string/>
       </property>
      </widget>
     </item>
@@ -72,7 +90,8 @@
       <property name="font">
        <font>
         <family>Calibri</family>
-        <pointsize>20</pointsize>
+        <pointsize>30</pointsize>
+        <bold>true</bold>
        </font>
       </property>
       <property name="styleSheet">
@@ -98,34 +117,48 @@
     </item>
     <item>
      <widget class="QPushButton" name="helpBtn">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>66</width>
+        <height>58</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>66</width>
+        <height>58</height>
+       </size>
+      </property>
       <property name="text">
-       <string>PushButton</string>
+       <string/>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QGraphicsView" name="mapImg">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>170</y>
-     <width>521</width>
-     <height>361</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="playBtn">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>640</y>
-     <width>93</width>
-     <height>29</height>
+     <x>427</x>
+     <y>570</y>
+     <width>226</width>
+     <height>72</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="text">
-    <string>PushButton</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="background">
@@ -162,11 +195,75 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="leftBtn">
+   <property name="geometry">
+    <rect>
+     <x>167</x>
+     <y>295</y>
+     <width>63</width>
+     <height>65</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rightBtn">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>295</y>
+     <width>63</width>
+     <height>65</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="Slideshow" name="mapImg" native="true">
+   <property name="geometry">
+    <rect>
+     <x>287</x>
+     <y>160</y>
+     <width>506</width>
+     <height>334</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+  </widget>
   <zorder>background</zorder>
   <zorder>menuBar</zorder>
-  <zorder>mapImg</zorder>
   <zorder>playBtn</zorder>
+  <zorder>leftBtn</zorder>
+  <zorder>rightBtn</zorder>
+  <zorder>mapImg</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Slideshow</class>
+   <extends>QWidget</extends>
+   <header>E:\QtCodes\CarrotFantasy\Window\SelectWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

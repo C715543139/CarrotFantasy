@@ -12,5 +12,19 @@
         <file>Game/Framework/menuBg.png</file>
         <file>Game/Framework/menuCenter.png</file>
         <file>Game/Framework/gameBg.png</file>
+        <file>SelectScene/selectBg.png</file>
+        <file>SelectScene/leftBtn.png</file>
+        <file>SelectScene/leftBtnP.png</file>
+        <file>SelectScene/rightBtn.png</file>
+        <file>SelectScene/rightBtnP.png</file>
+        <file>SelectScene/map1.png</file>
+        <file>SelectScene/map2.png</file>
+        <file>SelectScene/map3.png</file>
+        <file>SelectScene/playBtn.png</file>
+        <file>SelectScene/playBtnP.png</file>
+        <file>SelectScene/backBtn.png</file>
+        <file>SelectScene/backBtnP.png</file>
+        <file>SelectScene/helpBtn.png</file>
+        <file>SelectScene/helpBtnP.png</file>
     </qresource>
 </RCC>
