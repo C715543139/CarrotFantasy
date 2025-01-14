@@ -47,3 +47,40 @@ void GameWidget::on_pauseBtn_clicked() {
                          ":/res/Game/Framework/pauseBtnP.png");
     }
 }
+
+// 菜单按钮
+void GameWidget::on_menuBtn_clicked() {
+    auto msgBox = new QMessageBox;
+    msgBox->setWindowTitle("菜单");
+    msgBox->setText("你想要做什么？");
+    msgBox->setIcon(QMessageBox::Question);
+    QPushButton *continueBtn = msgBox->addButton("继续", QMessageBox::ActionRole);
+    QPushButton *restartBtn = msgBox->addButton("重来", QMessageBox::ActionRole);
+    QPushButton *backBtn = msgBox->addButton("选关", QMessageBox::ActionRole);
+    msgBox->exec();
+    if (msgBox->clickedButton() == restartBtn) {
+        // 发送信号，重新加载游戏
+        restart();
+    } else if (msgBox->clickedButton() == backBtn) {
+        toSelectPage();
+    }
+    delete msgBox;
+}
+
+void GameWidget::loadGame(int map) {
+    auto gameView = ui->gameView;
+    gameView->setMap(map);
+}
+
+GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene) {
+    setScene(scene);
+    scene->setSceneRect(0, 0, 1080, 550);
+}
+
+GameView::~GameView() { delete scene; }
+
+void GameView::setMap(int map) {
+    QPixmap path(QString(":/res/Game/Path/p%1.png").arg(map));
+    scene->clear();
+    scene->addPixmap(path);
+}

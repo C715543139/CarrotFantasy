@@ -17,6 +17,7 @@ class SelectWidget : public QWidget {
 public:
     explicit SelectWidget(QWidget *parent = nullptr);
     ~SelectWidget();
+    int mapIndex();
 
 signals:
     void toMainPage();
@@ -31,10 +32,11 @@ class Slideshow : public QWidget {
 
 public:
     explicit Slideshow(QWidget *parent = nullptr);
+    ~Slideshow();
     void addImage(const QString &path);
     void nextImage();
     void previousImage();
-    ~Slideshow();
+    friend SelectWidget;
 
 private:
     QLabel *currentLabel;
@@ -45,6 +47,5 @@ private:
 
     void switchToImage(int newIndex, bool forward);
 };
-
 
 #endif // SELECTWIDGET_H

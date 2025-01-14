@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QTimer>
 #include "GameWidget.h"
 #include "MainWidget.h"
 #include "SelectWidget.h"
@@ -19,12 +20,14 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void gameStart();
 
 private:
     Ui::MainWindow *ui;
     MainWidget *mainWidget; // 主页面
-    SelectWidget *selectWidget;
+    SelectWidget *selectWidget; // 选择页面
     GameWidget *gameWidget; // 游戏页面
+    QWidget *loadingWidget;
     QStackedWidget *stackedWidget; // 页面管理器
 };
 #endif // MAINWINDOW_H

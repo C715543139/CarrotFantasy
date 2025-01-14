@@ -122,3 +122,6 @@ Slideshow::~Slideshow() {
     delete nextLabel;
 }
 
+int SelectWidget::mapIndex() {
+    return ui->mapImg->currentIndex;
+}

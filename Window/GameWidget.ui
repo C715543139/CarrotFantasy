@@ -294,13 +294,13 @@
     </item>
    </layout>
   </widget>
-  <widget class="QGraphicsView" name="gameView">
+  <widget class="GameView" name="gameView">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>78</y>
-     <width>960</width>
-     <height>640</height>
+     <x>0</x>
+     <y>180</y>
+     <width>1080</width>
+     <height>550</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -311,14 +311,14 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>960</width>
-     <height>640</height>
+     <width>1080</width>
+     <height>550</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>960</width>
-     <height>640</height>
+     <width>1080</width>
+     <height>550</height>
     </size>
    </property>
    <property name="styleSheet">
@@ -346,6 +346,13 @@ border: none;</string>
   <zorder>menuBar</zorder>
   <zorder>gameView</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GameView</class>
+   <extends>QGraphicsView</extends>
+   <header>E:\QtCodes\CarrotFantasy\Window\GameWidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

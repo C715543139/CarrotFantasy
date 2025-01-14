@@ -26,5 +26,9 @@
         <file>SelectScene/backBtnP.png</file>
         <file>SelectScene/helpBtn.png</file>
         <file>SelectScene/helpBtnP.png</file>
+        <file>SelectScene/loading.jpeg</file>
+        <file>Game/Path/p0.png</file>
+        <file>Game/Path/p1.png</file>
+        <file>Game/Path/p2.png</file>
     </qresource>
 </RCC>

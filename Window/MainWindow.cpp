@@ -9,19 +9,36 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     mainWidget = new MainWidget;
     selectWidget = new SelectWidget;
     gameWidget = new GameWidget;
+    loadingWidget = new QWidget;
+    loadingWidget->setStyleSheet(
+        "width: 1080px;"
+        "height: 720px;"
+        "background-image: url(:/res/SelectScene/loading.jpeg);");
+
     stackedWidget = new QStackedWidget;
     stackedWidget->addWidget(mainWidget);
     stackedWidget->addWidget(selectWidget);
     stackedWidget->addWidget(gameWidget);
+    stackedWidget->addWidget(loadingWidget);
     setCentralWidget(stackedWidget); // 将页面管理器显示在窗口
 
-    connect(mainWidget, &MainWidget::toSelectPage, [this] {stackedWidget->setCurrentIndex(1);});
-    connect(selectWidget, &SelectWidget::toMainPage, [this] {stackedWidget->setCurrentIndex(0);});
-    connect(selectWidget, &SelectWidget::toGamePage, [this] {stackedWidget->setCurrentIndex(2);});
-    connect(gameWidget, &GameWidget::toSelectPage, [this] {stackedWidget->setCurrentIndex(1);});
+    connect(mainWidget, &MainWidget::toSelectPage, [this] { stackedWidget->setCurrentIndex(1); });
+    connect(selectWidget, &SelectWidget::toMainPage, [this] { stackedWidget->setCurrentIndex(0); });
+    connect(selectWidget, &SelectWidget::toGamePage, [this] { gameStart(); });
+    connect(gameWidget, &GameWidget::toSelectPage, [this] { stackedWidget->setCurrentIndex(1); });
+    connect(gameWidget, &GameWidget::restart, [this] { gameStart(); });
 }
 
 MainWindow::~MainWindow() {
     delete stackedWidget;
     delete ui;
+}
+
+void MainWindow::gameStart() {
+    // 加载动画
+    stackedWidget->setCurrentIndex(3);
+    QTimer::singleShot(1000, [&] {
+        stackedWidget->setCurrentIndex(2);
+        gameWidget->loadGame(selectWidget->mapIndex());
+    });
 }
