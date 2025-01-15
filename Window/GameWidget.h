@@ -3,6 +3,9 @@
 
 #include <QGraphicsView>
 #include <QMessageBox>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include "../Core/Map.h"
 #include "WindowTool.h"
 
 namespace Ui {

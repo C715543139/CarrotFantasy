@@ -298,9 +298,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>180</y>
+     <y>90</y>
      <width>1080</width>
-     <height>550</height>
+     <height>630</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -312,13 +312,13 @@
    <property name="minimumSize">
     <size>
      <width>1080</width>
-     <height>550</height>
+     <height>630</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
      <width>1080</width>
-     <height>550</height>
+     <height>630</height>
     </size>
    </property>
    <property name="styleSheet">
@@ -350,7 +350,7 @@ border: none;</string>
   <customwidget>
    <class>GameView</class>
    <extends>QGraphicsView</extends>
-   <header>E:\QtCodes\CarrotFantasy\Window\GameWidget.h</header>
+   <header>GameWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

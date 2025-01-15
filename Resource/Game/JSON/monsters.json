@@ -1,0 +1,121 @@
+{
+  "land_star": {
+    "Value": 14,
+    "Level": 1,
+    "Hp": 20,
+    "Speed": 80,
+    "Damage": 1
+  },
+  "land_pink": {
+    "Value": 14,
+    "Level": 1,
+    "Hp": 20,
+    "Speed": 80,
+    "Damage": 1
+  },
+  "land_nima": {
+    "Value": 14,
+    "Level": 1,
+    "Hp": 20,
+    "Speed": 80,
+    "Damage": 1
+  },
+  "land_boss_star": {
+    "Value": 14,
+    "Level": 2,
+    "Hp": 200,
+    "Speed": 80,
+    "Damage": 2
+  },
+  "land_boss_pink": {
+    "Value": 14,
+    "Level": 2,
+    "Hp": 200,
+    "Speed": 80,
+    "Damage": 2
+  },
+  "land_boss_nima": {
+    "Value": 14,
+    "Level": 2,
+    "Hp": 250,
+    "Speed": 80,
+    "Damage": 2
+  },
+  "fly_yellow": {
+    "Value": 14,
+    "Level": 1,
+    "Hp": 60,
+    "Speed": 110,
+    "Damage": 1
+  },
+  "fly_blue": {
+    "Value": 14,
+    "Level": 1,
+    "Hp": 80,
+    "Speed": 100,
+    "Damage": 1
+  },
+  "fly_boss_yellow": {
+    "Value": 14,
+    "Level": 2,
+    "Hp": 180,
+    "Speed": 110,
+    "Damage": 2
+  },
+  "fly_boss_blue": {
+    "Value": 14,
+    "Level": 2,
+    "Hp": 180,
+    "Speed": 110,
+    "Damage": 2
+  },
+  "fat_green": {
+    "Value": 14,
+    "Level": 1,
+    "Hp": 200,
+    "Speed": 60,
+    "Damage": 1
+  },
+  "fat_boss_green": {
+    "Value": 168,
+    "Level": 2,
+    "Hp": 400,
+    "Speed": 60,
+    "Damage": 2
+  },
+  "boss_big": {
+    "Value": 999,
+    "Level": 3,
+    "Hp": 1000,
+    "Speed": 30,
+    "Damage": 3
+  },
+  "big_oldboss": {
+    "Value": 168,
+    "Level": 3,
+    "Hp": 1000,
+    "Speed": 60,
+    "Damage": 3
+  },
+  "fat_oldboss": {
+    "Value": 168,
+    "Level": 3,
+    "Hp": 1200,
+    "Speed": 60,
+    "Damage": 3
+  },
+  "fly_oldboss": {
+    "Value": 168,
+    "Level": 3,
+    "Hp": 800,
+    "Speed": 90,
+    "Damage": 3
+  },
+  "land_oldboss": {
+    "Value": 168,
+    "Level": 3,
+    "Hp": 1000,
+    "Speed": 80,
+    "Damage": 3
+  }
+}

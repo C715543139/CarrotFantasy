@@ -30,5 +30,42 @@
         <file>Game/Path/p0.png</file>
         <file>Game/Path/p1.png</file>
         <file>Game/Path/p2.png</file>
+        <file>Game/Path/p0.ini</file>
+        <file>Game/JSON/monsters.json</file>
+        <file>Game/Monsters/big_oldboss01.png</file>
+        <file>Game/Monsters/big_oldboss02.png</file>
+        <file>Game/Monsters/boss_big01.png</file>
+        <file>Game/Monsters/boss_big02.png</file>
+        <file>Game/Monsters/fat_boss_green01.png</file>
+        <file>Game/Monsters/fat_boss_green02.png</file>
+        <file>Game/Monsters/fat_green01.png</file>
+        <file>Game/Monsters/fat_green02.png</file>
+        <file>Game/Monsters/fat_oldboss01.png</file>
+        <file>Game/Monsters/fat_oldboss02.png</file>
+        <file>Game/Monsters/fly_blue01.png</file>
+        <file>Game/Monsters/fly_blue02.png</file>
+        <file>Game/Monsters/fly_boss_blue01.png</file>
+        <file>Game/Monsters/fly_boss_blue02.png</file>
+        <file>Game/Monsters/fly_boss_yellow01.png</file>
+        <file>Game/Monsters/fly_boss_yellow02.png</file>
+        <file>Game/Monsters/fly_oldboss01.png</file>
+        <file>Game/Monsters/fly_oldboss02.png</file>
+        <file>Game/Monsters/fly_yellow01.png</file>
+        <file>Game/Monsters/fly_yellow02.png</file>
+        <file>Game/Monsters/land_boss_nima01.png</file>
+        <file>Game/Monsters/land_boss_nima02.png</file>
+        <file>Game/Monsters/land_boss_pink01.png</file>
+        <file>Game/Monsters/land_boss_pink02.png</file>
+        <file>Game/Monsters/land_boss_star01.png</file>
+        <file>Game/Monsters/land_boss_star02.png</file>
+        <file>Game/Monsters/land_nima01.png</file>
+        <file>Game/Monsters/land_nima02.png</file>
+        <file>Game/Monsters/land_oldboss01.png</file>
+        <file>Game/Monsters/land_oldboss02.png</file>
+        <file>Game/Monsters/land_pink01.png</file>
+        <file>Game/Monsters/land_pink02.png</file>
+        <file>Game/Monsters/land_star01.png</file>
+        <file>Game/Monsters/land_star02.png</file>
+        <file>Game/JSON/towers.json</file>
     </qresource>
 </RCC>

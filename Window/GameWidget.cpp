@@ -73,14 +73,25 @@ void GameWidget::loadGame(int map) {
 }
 
 GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene) {
+
     setScene(scene);
-    scene->setSceneRect(0, 0, 1080, 550);
+    scene->setSceneRect(0, 0, 1080, 630);
 }
 
 GameView::~GameView() { delete scene; }
 
 void GameView::setMap(int map) {
+    // 路径图片
     QPixmap path(QString(":/res/Game/Path/p%1.png").arg(map));
     scene->clear();
-    scene->addPixmap(path);
+    auto pathItem = scene->addPixmap(path);
+    pathItem->setPos(0, 90);
+
+    // 测试
+    auto m = new Map(map);
+    delete m;
+    auto mst = new Monster(1, 1, "land_star");
+    delete mst;
+    auto tw = new Tower(1, 1, "Star");
+    delete tw;
 }
