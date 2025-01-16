@@ -30,6 +30,10 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget
         "#menuCtr {"
         "background-image: url(:/res/Game/Framework/menuCenter.png);"
         "}");
+
+    connect(&gameManager, &GameManager::waveChange, [this](int wave) {
+        ui->waveLb->setText(QString::number(wave / 10) + "  " + QString::number(wave % 10));
+    });
 }
 
 GameWidget::~GameWidget() { delete ui; }
@@ -43,7 +47,7 @@ void GameWidget::on_pauseBtn_clicked() {
                          ":/res/Game/Framework/continueBtn.png",
                          ":/res/Game/Framework/continueBtnP.png");
     } else {
-        timer.start(16);
+        timer.start();
         setBtnBackground(ui->pauseBtn,
                          ":/res/Game/Framework/pauseBtn.png",
                          ":/res/Game/Framework/pauseBtnP.png");
@@ -57,10 +61,11 @@ void GameWidget::on_menuBtn_clicked() {
     msgBox->setWindowTitle("菜单");
     msgBox->setText("你想要做什么？");
     msgBox->setIcon(QMessageBox::Question);
-    QPushButton *continueBtn = msgBox->addButton("继续", QMessageBox::ActionRole);
+    msgBox->addButton("继续", QMessageBox::ActionRole);
     QPushButton *restartBtn = msgBox->addButton("重来", QMessageBox::ActionRole);
     QPushButton *backBtn = msgBox->addButton("选关", QMessageBox::ActionRole);
     msgBox->exec();
+
     if (msgBox->clickedButton() == restartBtn) {
         // 发送信号，重新加载游戏
         stopGame();
@@ -69,7 +74,7 @@ void GameWidget::on_menuBtn_clicked() {
         stopGame();
         toSelectPage();
     } else if (!isPause) {
-        timer.start(16);
+        timer.start();
     }
     delete msgBox;
 }
@@ -85,33 +90,47 @@ void GameWidget::loadGame(int mapIndex) {
     // 更新画面
     gameView->update(gameManager);
 
-    // TODO:倒数动画
+    // 倒数动画
+    count = 0;
+    countDown();
+    connect(&countTimer, &QTimer::timeout, this, &GameWidget::countDown);
+    countTimer.start(1000);
 
     // 游戏循环
-    connect(&timer, &QTimer::timeout, this, &GameWidget::updateGame);
-    timer.start(16);
+    QTimer::singleShot(4000, [this]() {
+        connect(&timer, &QTimer::timeout, this, &GameWidget::updateGame);
+        timer.start(16);
+    });
 }
 
 void GameWidget::stopGame() {
     timer.stop();
+    disconnect(&timer, &QTimer::timeout, this, &GameWidget::updateGame);
     isPause = false;
     setBtnBackground(ui->pauseBtn,
-                 ":/res/Game/Framework/pauseBtn.png",
-                 ":/res/Game/Framework/pauseBtnP.png");
+                     ":/res/Game/Framework/pauseBtn.png",
+                     ":/res/Game/Framework/pauseBtnP.png");
 
     // TODO:gameManager
 
     // gameView
-
 }
 
 
 void GameWidget::updateGame() {
     gameManager.update();
     ui->gameView->update(gameManager);
-    cout << "update game" << endl;
 }
 
+void GameWidget::countDown() {
+    QPixmap countImg(QString(":/res/Game/Framework/countDown%1.png").arg(count++));
+    auto countItem = ui->gameView->scene->addPixmap(countImg);
+    countItem->setPos(441, 173);
+    if (count == 4) {
+        countTimer.stop();
+        disconnect(&countTimer, &QTimer::timeout, this, &GameWidget::countDown);
+    }
+}
 
 GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene) {
     setScene(scene);
@@ -121,14 +140,22 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
 GameView::~GameView() { delete scene; }
 
 void GameView::setMap(int mapIndex) {
+    this->mapIndex = mapIndex;
     // 路径图片
     QPixmap path(QString(":/res/Game/Path/p%1.png").arg(mapIndex));
-    scene->clear();
     auto pathItem = scene->addPixmap(path);
     pathItem->setPos(0, 90);
 }
 
 // 画面更新
 void GameView::update(GameManager &gameManager) {
+    scene->clear();
+    setMap(mapIndex);
 
+    for (int i = 0; i < gameManager.height; i++) {
+        for (int j = 0; j < gameManager.width; j++) {
+            auto item = scene->addPixmap(gameManager.getTileImage(i, j));
+            item->setPos(j * gameManager.tileSize - 45, i * gameManager.tileSize - 45);
+        }
+    }
 }

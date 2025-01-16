@@ -8,6 +8,7 @@
 #include "Unit.h"
 using std::vector, std::stringstream, std::cout, std::endl;
 
+
 class Tile {
 public:
     Tile();
@@ -16,15 +17,13 @@ public:
 private:
     vector<Monster> monsters;
     vector<Tower> towers;
-    vector<Item> items;
+    // vector<Item> items;
 
     enum TileType {
         EMPTY, CARROT, NEST, PATH, CLOUD
     } tileType;
 
-    enum TileDirection {
-        UP, DOWN, LEFT, RIGHT, NONE
-    } tileDirection;
+    Direction tileDirection;
 };
 
 #endif // MAP_H

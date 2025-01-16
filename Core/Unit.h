@@ -8,9 +8,15 @@
 #include <vector>
 using std::vector;
 
+
+enum Direction {
+    UP, DOWN, LEFT, RIGHT, NONE
+};
+
 class Unit {
 public:
     explicit Unit(int y, int x);
+    friend class GameManager;
 
 protected:
     int y, x;
@@ -18,26 +24,54 @@ protected:
 
 class Monster : public Unit {
 public:
-    Monster(int y, int x, const QString &name);
+    Monster(int y, int x, const QString &name, Direction dir);
+    QPixmap getImage();
+    friend class GameManager;
 
 private:
     int speed, value, hp, damage;
+    int animeIndex, animeTimer;
+    int moveTimer;
     QPixmap anime1, anime2;
+    Direction direction;
 };
 
 class Tower : public Unit {
 public:
     Tower(int y, int x, const QString &name);
+    QPixmap getImage();
+    friend class GameManager;
 
 private:
     int level, createCost;
     vector<int> atkDamage, atkRange, sellValue, upgradeCost;
     vector<double> atkSpace;
-    const QString name;
+    QString name;
     // 动画相关
 };
 
-class Item : public Unit {};
+class Carrot : public Unit {
+public:
+    Carrot(int y, int x);
+    QPixmap getImage();
+    friend class GameManager;
+
+private:
+    int hp;
+    vector<QPixmap> anime;
+};
+
+class Nest : public Unit {
+public:
+    Nest(int y, int x);
+    QPixmap getImage();
+    friend class GameManager;
+
+private:
+    QPixmap anime;
+};
+
+// class Item : public Unit {};
 
 
 #endif // UNIT_H

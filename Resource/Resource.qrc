@@ -67,5 +67,20 @@
         <file>Game/Monsters/land_star01.png</file>
         <file>Game/Monsters/land_star02.png</file>
         <file>Game/JSON/towers.json</file>
+        <file>Game/Carrot/hlb1.png</file>
+        <file>Game/Carrot/hlb2.png</file>
+        <file>Game/Carrot/hlb3.png</file>
+        <file>Game/Carrot/hlb4.png</file>
+        <file>Game/Carrot/hlb5.png</file>
+        <file>Game/Carrot/hlb6.png</file>
+        <file>Game/Carrot/hlb7.png</file>
+        <file>Game/Carrot/hlb8.png</file>
+        <file>Game/Carrot/hlb9.png</file>
+        <file>Game/Carrot/hlb10.png</file>
+        <file>Game/Monsters/nest.png</file>
+        <file>Game/Framework/countDown0.png</file>
+        <file>Game/Framework/countDown1.png</file>
+        <file>Game/Framework/countDown2.png</file>
+        <file>Game/Framework/countDown3.png</file>
     </qresource>
 </RCC>

@@ -30,25 +30,29 @@ private slots:
     void on_pauseBtn_clicked();
     void on_menuBtn_clicked();
     void updateGame();
+    void countDown();
 
 private:
     Ui::GameWidget *ui;
     bool isPause;
-    QTimer timer;
+    QTimer timer, countTimer;
     GameManager gameManager;
+    int count;
 };
 
 class GameView : public QGraphicsView {
     Q_OBJECT
 
-    public:
+public:
+    QGraphicsScene *scene;
+
     explicit GameView(QWidget *parent = nullptr);
     ~GameView();
     void setMap(int mapIndex);
     void update(GameManager &gameManager);
 
 private:
-    QGraphicsScene *scene;
+    int mapIndex;
 };
 
 #endif // GAMEWIDGET_H
