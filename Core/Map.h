@@ -11,7 +11,7 @@ using std::vector, std::stringstream, std::cout, std::endl;
 class Tile {
 public:
     Tile();
-    friend class Map;
+    friend class GameManager;
 
 private:
     vector<Monster> monsters;
@@ -25,18 +25,6 @@ private:
     enum TileDirection {
         UP, DOWN, LEFT, RIGHT, NONE
     } tileDirection;
-};
-
-class Map {
-public:
-    explicit Map(int map);
-    int width() const;
-    int height() const;
-    Tile &getTile(int y, int x); // 获取Tile
-
-private:
-    const int WIDTH = 12, HEIGHT = 7, TILESIZE = 90;
-    vector<vector<Tile>> tiles;
 };
 
 #endif // MAP_H

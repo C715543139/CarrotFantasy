@@ -39,6 +39,7 @@ void MainWindow::gameStart() {
     stackedWidget->setCurrentIndex(3);
     QTimer::singleShot(1000, [&] {
         stackedWidget->setCurrentIndex(2);
+        // 开始游戏
         gameWidget->loadGame(selectWidget->mapIndex());
     });
 }

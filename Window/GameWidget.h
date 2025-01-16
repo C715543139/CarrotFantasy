@@ -5,7 +5,8 @@
 #include <QMessageBox>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include "../Core/Map.h"
+#include <QTimer>
+#include "../Core/GameManager.h"
 #include "WindowTool.h"
 
 namespace Ui {
@@ -18,7 +19,8 @@ class GameWidget : public QWidget {
 public:
     explicit GameWidget(QWidget *parent = nullptr);
     ~GameWidget();
-    void loadGame(int map);
+    void loadGame(int mapIndex);
+    void stopGame();
 
 signals:
     void toSelectPage();
@@ -27,10 +29,13 @@ signals:
 private slots:
     void on_pauseBtn_clicked();
     void on_menuBtn_clicked();
+    void updateGame();
 
 private:
     Ui::GameWidget *ui;
     bool isPause;
+    QTimer timer;
+    GameManager gameManager;
 };
 
 class GameView : public QGraphicsView {
@@ -39,7 +44,8 @@ class GameView : public QGraphicsView {
     public:
     explicit GameView(QWidget *parent = nullptr);
     ~GameView();
-    void setMap(int map);
+    void setMap(int mapIndex);
+    void update(GameManager &gameManager);
 
 private:
     QGraphicsScene *scene;

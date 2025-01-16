@@ -38,10 +38,12 @@ GameWidget::~GameWidget() { delete ui; }
 void GameWidget::on_pauseBtn_clicked() {
     isPause = !isPause;
     if (isPause) {
+        timer.stop();
         setBtnBackground(ui->pauseBtn,
                          ":/res/Game/Framework/continueBtn.png",
                          ":/res/Game/Framework/continueBtnP.png");
     } else {
+        timer.start(16);
         setBtnBackground(ui->pauseBtn,
                          ":/res/Game/Framework/pauseBtn.png",
                          ":/res/Game/Framework/pauseBtnP.png");
@@ -50,6 +52,7 @@ void GameWidget::on_pauseBtn_clicked() {
 
 // 菜单按钮
 void GameWidget::on_menuBtn_clicked() {
+    timer.stop();
     auto msgBox = new QMessageBox;
     msgBox->setWindowTitle("菜单");
     msgBox->setText("你想要做什么？");
@@ -60,38 +63,72 @@ void GameWidget::on_menuBtn_clicked() {
     msgBox->exec();
     if (msgBox->clickedButton() == restartBtn) {
         // 发送信号，重新加载游戏
+        stopGame();
         restart();
     } else if (msgBox->clickedButton() == backBtn) {
+        stopGame();
         toSelectPage();
+    } else if (!isPause) {
+        timer.start(16);
     }
     delete msgBox;
 }
 
-void GameWidget::loadGame(int map) {
+void GameWidget::loadGame(int mapIndex) {
+    // 加载地图
     auto gameView = ui->gameView;
-    gameView->setMap(map);
+    gameView->setMap(mapIndex);
+
+    // 加载初始单位
+    gameManager.init(mapIndex);
+
+    // 更新画面
+    gameView->update(gameManager);
+
+    // TODO:倒数动画
+
+    // 游戏循环
+    connect(&timer, &QTimer::timeout, this, &GameWidget::updateGame);
+    timer.start(16);
 }
 
-GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene) {
+void GameWidget::stopGame() {
+    timer.stop();
+    isPause = false;
+    setBtnBackground(ui->pauseBtn,
+                 ":/res/Game/Framework/pauseBtn.png",
+                 ":/res/Game/Framework/pauseBtnP.png");
 
+    // TODO:gameManager
+
+    // gameView
+
+}
+
+
+void GameWidget::updateGame() {
+    gameManager.update();
+    ui->gameView->update(gameManager);
+    cout << "update game" << endl;
+}
+
+
+GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene) {
     setScene(scene);
     scene->setSceneRect(0, 0, 1080, 630);
 }
 
 GameView::~GameView() { delete scene; }
 
-void GameView::setMap(int map) {
+void GameView::setMap(int mapIndex) {
     // 路径图片
-    QPixmap path(QString(":/res/Game/Path/p%1.png").arg(map));
+    QPixmap path(QString(":/res/Game/Path/p%1.png").arg(mapIndex));
     scene->clear();
     auto pathItem = scene->addPixmap(path);
     pathItem->setPos(0, 90);
+}
 
-    // 测试
-    auto m = new Map(map);
-    delete m;
-    auto mst = new Monster(1, 1, "land_star");
-    delete mst;
-    auto tw = new Tower(1, 1, "Star");
-    delete tw;
+// 画面更新
+void GameView::update(GameManager &gameManager) {
+
 }
