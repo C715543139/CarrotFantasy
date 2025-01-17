@@ -1,95 +1,95 @@
 {
   "Star0": {
     "SellValue": 128,
-    "AttackRange": 240,
-    "AttackSpace": 1.5,
+    "AttackRange": 1,
+    "AttackSpace": 4,
     "UpgradeCost": 220,
     "CreateCost": 160,
     "AttackDamage": 20
   },
   "Star1": {
     "SellValue": 304,
-    "AttackRange": 300,
-    "AttackSpace": 1.2,
+    "AttackRange": 2,
+    "AttackSpace": 3,
     "UpgradeCost": 260,
     "CreateCost": 0,
     "AttackDamage": 40
   },
   "Star2": {
     "SellValue": 512,
-    "AttackRange": 340,
-    "AttackSpace": 1,
+    "AttackRange": 2,
+    "AttackSpace": 2,
     "UpgradeCost": "-1",
     "CreateCost": 0,
     "AttackDamage": 70
   },
   "BStar0": {
     "SellValue": 144,
-    "AttackRange": 240,
-    "AttackSpace": 1.5,
+    "AttackRange": 1,
+    "AttackSpace": 4,
     "UpgradeCost": 260,
     "CreateCost": 180,
     "AttackDamage": 20
   },
   "BStar1": {
     "SellValue": 352,
-    "AttackRange": 300,
-    "AttackSpace": 1.2,
+    "AttackRange": 2,
+    "AttackSpace": 3,
     "UpgradeCost": 320,
     "CreateCost": 0,
     "AttackDamage": 30
   },
   "BStar2": {
     "SellValue": 608,
-    "AttackRange": 340,
-    "AttackSpace": 1,
+    "AttackRange": 2,
+    "AttackSpace": 2,
     "UpgradeCost": "-1",
     "CreateCost": 0,
     "AttackDamage": 50
   },
   "Sun0": {
     "SellValue": 144,
-    "AttackRange": 240,
-    "AttackSpace": 2,
+    "AttackRange": 1,
+    "AttackSpace": 4,
     "UpgradeCost": 260,
     "CreateCost": 180,
     "AttackDamage": 20
   },
   "Sun1": {
     "SellValue": 352,
-    "AttackRange": 300,
-    "AttackSpace": 1.8,
+    "AttackRange": 2,
+    "AttackSpace": 3,
     "UpgradeCost": 320,
     "CreateCost": 0,
     "AttackDamage": 30
   },
   "Sun2": {
     "SellValue": 608,
-    "AttackRange": 340,
-    "AttackSpace": 1.5,
+    "AttackRange": 2,
+    "AttackSpace": 3,
     "UpgradeCost": "-1",
     "CreateCost": 0,
     "AttackDamage": 50
   },
   "Snow0": {
     "SellValue": 128,
-    "AttackRange": 240,
-    "AttackSpace": 4,
+    "AttackRange": 1,
+    "AttackSpace": 8,
     "UpgradeCost": 220,
     "CreateCost": 160,
     "AttackDamage": 20
   },
   "Snow1": {
     "SellValue": 304,
-    "AttackRange": 300,
-    "AttackSpace": 4,
+    "AttackRange": 2,
+    "AttackSpace": 6,
     "UpgradeCost": 320,
     "CreateCost": 0,
     "AttackDamage": 30
   },
   "Snow2": {
     "SellValue": 560,
-    "AttackRange": 340,
+    "AttackRange": 2,
     "AttackSpace": 4,
     "UpgradeCost": "-1",
     "CreateCost": 0,

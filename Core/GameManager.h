@@ -9,12 +9,14 @@ class GameManager: public QObject {
     Q_OBJECT
 
 public:
+    const int width = 12, height = 7, tileSize = 90;
+
     GameManager();
     ~GameManager();
     void update();
     void init(int mapIndex);
     QPixmap getTileImage(int y, int x);
-    const int width = 12, height = 7, tileSize = 90;
+    void addTower(int posY, int posX, const QString &name);
 
 private:
     vector<vector<Tile>> tiles;
@@ -24,6 +26,8 @@ private:
     int monsterCounter, monsterKilled, monsterTimer;
 
     void monsterMove();
+    void towerAttack();
+    void towerDamage(int y, int x);
 
 signals:
     void waveChange(int wave);

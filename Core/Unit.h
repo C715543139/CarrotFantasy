@@ -43,11 +43,13 @@ public:
     friend class GameManager;
 
 private:
-    int level, createCost;
+    int level, createCost, CDTimer;
     vector<int> atkDamage, atkRange, sellValue, upgradeCost;
     vector<double> atkSpace;
     QString name;
     // 动画相关
+    vector<QPixmap> normalImage;
+    vector<vector<QPixmap>> atkAnime;
 };
 
 class Carrot : public Unit {

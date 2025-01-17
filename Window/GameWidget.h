@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QMouseEvent>
 #include "../Core/GameManager.h"
 #include "WindowTool.h"
 
@@ -34,25 +35,32 @@ private slots:
 
 private:
     Ui::GameWidget *ui;
-    bool isPause;
+    bool isPause, isCountDown;
+    int count;
     QTimer timer, countTimer;
     GameManager gameManager;
-    int count;
 };
 
 class GameView : public QGraphicsView {
     Q_OBJECT
 
 public:
-    QGraphicsScene *scene;
+    friend class GameWidget;
 
     explicit GameView(QWidget *parent = nullptr);
     ~GameView();
-    void setMap(int mapIndex);
-    void update(GameManager &gameManager);
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
 
 private:
     int mapIndex;
+    bool *isCountDown;
+    GameManager *gameManager;
+    QGraphicsScene *scene;
+
+    void setMap(int mapIndex);
+    void updateView();
 };
 
 #endif // GAMEWIDGET_H

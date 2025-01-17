@@ -82,5 +82,39 @@
         <file>Game/Framework/countDown1.png</file>
         <file>Game/Framework/countDown2.png</file>
         <file>Game/Framework/countDown3.png</file>
+        <file>Game/Tower/Sun/ASun00.png</file>
+        <file>Game/Tower/Sun/ASun01.png</file>
+        <file>Game/Tower/Sun/ASun02.png</file>
+        <file>Game/Tower/Sun/ASun03.png</file>
+        <file>Game/Tower/Sun/ASun04.png</file>
+        <file>Game/Tower/Sun/ASun10.png</file>
+        <file>Game/Tower/Sun/ASun11.png</file>
+        <file>Game/Tower/Sun/ASun12.png</file>
+        <file>Game/Tower/Sun/ASun13.png</file>
+        <file>Game/Tower/Sun/ASun14.png</file>
+        <file>Game/Tower/Sun/ASun20.png</file>
+        <file>Game/Tower/Sun/ASun21.png</file>
+        <file>Game/Tower/Sun/ASun22.png</file>
+        <file>Game/Tower/Sun/ASun23.png</file>
+        <file>Game/Tower/Sun/ASun24.png</file>
+        <file>Game/Tower/Sun/ISun0.png</file>
+        <file>Game/Tower/Sun/ISun1.png</file>
+        <file>Game/Tower/Sun/NSun0.png</file>
+        <file>Game/Tower/Sun/NSun1.png</file>
+        <file>Game/Tower/Sun/NSun2.png</file>
+        <file>Game/Tower/Star/AStar00.png</file>
+        <file>Game/Tower/Star/AStar01.png</file>
+        <file>Game/Tower/Star/AStar02.png</file>
+        <file>Game/Tower/Star/AStar10.png</file>
+        <file>Game/Tower/Star/AStar11.png</file>
+        <file>Game/Tower/Star/AStar12.png</file>
+        <file>Game/Tower/Star/AStar20.png</file>
+        <file>Game/Tower/Star/AStar21.png</file>
+        <file>Game/Tower/Star/AStar22.png</file>
+        <file>Game/Tower/Star/IStar0.png</file>
+        <file>Game/Tower/Star/IStar1.png</file>
+        <file>Game/Tower/Star/NStar0.png</file>
+        <file>Game/Tower/Star/NStar1.png</file>
+        <file>Game/Tower/Star/NStar2.png</file>
     </qresource>
 </RCC>

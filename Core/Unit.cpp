@@ -35,7 +35,7 @@ QPixmap Monster::getImage() {
     return (animeIndex == 1) ? anime1 : anime2;
 }
 
-Tower::Tower(int y, int x, const QString &name) : Unit(y, x), name(name) {
+Tower::Tower(int y, int x, const QString &name) : Unit(y, x), name(name), CDTimer(0) {
     QFile file(":/res/Game/JSON/towers.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray jsonData = file.readAll();
@@ -52,13 +52,28 @@ Tower::Tower(int y, int x, const QString &name) : Unit(y, x), name(name) {
         atkRange.push_back(targetObj["AttackRange"].toInt());
         sellValue.push_back(targetObj["SellValue"].toInt());
         upgradeCost.push_back(targetObj["UpgradeCost"].toInt());
-    }
 
-    // 动画相关
+        // 动画
+        normalImage.push_back(QPixmap(
+            QString(":/res/Game/Tower/" + name + "/N" + name + "%1.png").arg(i)));
+        atkAnime.push_back(vector<QPixmap>());
+        if (name == "Star" || name == "BStar") {
+            for (int j = 0; j < 3; j++) {
+                atkAnime[i].push_back(QPixmap(
+                    QString(":/res/Game/Tower/" + name + "/A" + name + "%1%2.png").arg(i, j)));
+            }
+        } else {
+            for (int j = 0; j < 5; j++) {
+                atkAnime[i].push_back(QPixmap(
+                    QString(":/res/Game/Tower/" + name + "/A" + name + "%1%2.png").arg(i, j)));
+            }
+        }
+    }
 }
 
 QPixmap Tower::getImage() {
-    return QPixmap(":/res/Game/Monsters/land_star02.png");
+    if (CDTimer == 1)
+    return normalImage[level];
 }
 
 Carrot::Carrot(int y, int x): Unit(y, x), hp(10) {

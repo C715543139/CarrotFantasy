@@ -1,8 +1,10 @@
 #include "GameWidget.h"
 #include "ui_GameWidget.h"
 
-GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget), isPause(false) {
+GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget), isPause(false), isCountDown(false) {
     ui->setupUi(this);
+    ui->gameView->gameManager = &gameManager;
+    ui->gameView->isCountDown = &isCountDown;
 
     // 游戏背景
     ui->background->setStyleSheet("background-image: url(:/res/Game/Framework/gameBg.png);");
@@ -40,6 +42,8 @@ GameWidget::~GameWidget() { delete ui; }
 
 // 暂停按钮
 void GameWidget::on_pauseBtn_clicked() {
+    if (isCountDown) return;
+
     isPause = !isPause;
     if (isPause) {
         timer.stop();
@@ -56,6 +60,8 @@ void GameWidget::on_pauseBtn_clicked() {
 
 // 菜单按钮
 void GameWidget::on_menuBtn_clicked() {
+    if (isCountDown) return;
+
     timer.stop();
     auto msgBox = new QMessageBox;
     msgBox->setWindowTitle("菜单");
@@ -88,10 +94,10 @@ void GameWidget::loadGame(int mapIndex) {
     gameManager.init(mapIndex);
 
     // 更新画面
-    gameView->update(gameManager);
+    gameView->updateView();
 
     // 倒数动画
-    count = 0;
+    count = 0, isCountDown = true;
     countDown();
     connect(&countTimer, &QTimer::timeout, this, &GameWidget::countDown);
     countTimer.start(1000);
@@ -119,7 +125,7 @@ void GameWidget::stopGame() {
 
 void GameWidget::updateGame() {
     gameManager.update();
-    ui->gameView->update(gameManager);
+    ui->gameView->updateView();
 }
 
 void GameWidget::countDown() {
@@ -129,6 +135,9 @@ void GameWidget::countDown() {
     if (count == 4) {
         countTimer.stop();
         disconnect(&countTimer, &QTimer::timeout, this, &GameWidget::countDown);
+        QTimer::singleShot(1000, [this] {
+            isCountDown = false;
+        });
     }
 }
 
@@ -148,14 +157,22 @@ void GameView::setMap(int mapIndex) {
 }
 
 // 画面更新
-void GameView::update(GameManager &gameManager) {
+void GameView::updateView() {
     scene->clear();
     setMap(mapIndex);
 
-    for (int i = 0; i < gameManager.height; i++) {
-        for (int j = 0; j < gameManager.width; j++) {
-            auto item = scene->addPixmap(gameManager.getTileImage(i, j));
-            item->setPos(j * gameManager.tileSize - 45, i * gameManager.tileSize - 45);
+    for (int i = 0; i < gameManager->height; i++) {
+        for (int j = 0; j < gameManager->width; j++) {
+            auto item = scene->addPixmap(gameManager->getTileImage(i, j));
+            item->setPos(j * gameManager->tileSize - 105, i * gameManager->tileSize - 105);
         }
     }
+}
+
+void GameView::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton && !*isCountDown) {
+        QPoint pos = event->pos();
+        gameManager->addTower(pos.y(), pos.x(), "Star");
+    }
+    QGraphicsView::mousePressEvent(event);
 }
