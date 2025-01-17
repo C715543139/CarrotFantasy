@@ -73,7 +73,8 @@ public:
     friend class GameManager;
 
 private:
-    QPixmap anime;
+    int bornTimer;
+    QPixmap nest, born;
 };
 
 // class Item : public Unit {};

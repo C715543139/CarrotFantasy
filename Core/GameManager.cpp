@@ -2,15 +2,16 @@
 
 
 GameManager::GameManager()
-    : coin(0), waveIndex(1), waveMax(15), waveTimer(0),
+    : coin(0), waveIndex(1), waveMax(1), waveTimer(0),
       monsterCounter(0), monsterKilled(0), monsterTimer(0),
       nest(0, 0), carrot(0, 0),
       tiles(vector(height, vector<Tile>(width))) {
-    // 初始化星星动画
-    starAnime.resize(2);
+    // 初始化动画
+    specialAnime.resize(3);
     for (int i = 0; i < 6; i++) {
-        starAnime[0].push_back(QPixmap(QString(":/res/Game/Tower/Star/PStar%1.png").arg(i)));
-        starAnime[1].push_back(QPixmap(QString(":/res/Game/Tower/BStar/PBStar%1.png").arg(i)));
+        specialAnime[0].push_back(QPixmap(QString(":/res/Game/Tower/Star/PStar%1.png").arg(i)));
+        specialAnime[1].push_back(QPixmap(QString(":/res/Game/Tower/BStar/PBStar%1.png").arg(i)));
+        specialAnime[2].push_back(QPixmap(QString(":/res/Game/Monsters/Death/air%1.png").arg((i))));
     }
 }
 
@@ -25,24 +26,31 @@ const QList<QString>
         };
 
 void GameManager::update() {
+    // 胜利判定
+    if (waveIndex > waveMax && monsterCounter == monsterKilled) {
+        win(carrot.hp);
+        return;
+    }
+
     // 波次刷新
     waveTimer += 16;
-    if (waveTimer > 50000 && monsterCounter == monsterKilled) {
+    if (waveTimer > 5000 && monsterCounter == monsterKilled) {
         waveTimer = 0;
         waveIndex++;
         waveChange(waveIndex);
     }
 
     // 怪物刷新
-    if (monsterCounter < waveIndex * 10) {
+    if (monsterCounter < waveIndex * 10 && waveIndex <= waveMax) {
         monsterTimer += 16;
         if (monsterTimer > 500) {
             monsterTimer = 0;
             monsterCounter++;
+            nest.bornTimer = 256;
 
             // 随机选择生成的怪物
             QString name;
-            if (monsterCounter == waveMax * 10) name = bossNames[QRandomGenerator::global()->bounded(0, 6)];
+            if (monsterCounter == waveIndex * 10) name = bossNames[QRandomGenerator::global()->bounded(0, 6)];
             else name = monsterNames[QRandomGenerator::global()->bounded(0, 6)];
             tiles[nest.y][nest.x].monsters.push_back(
                 Monster(nest.y, nest.x, name, tiles[nest.y][nest.x].tileDirection));
@@ -68,6 +76,7 @@ void GameManager::monsterMove() {
                 if (monster.hp <= 0) {
                     coinChange(coin += monster.value);
                     monsterKilled++;
+                    specialTiles.insert({y, x}, {2, 5 * 16 * 2});
                     continue;
                 }
 
@@ -92,6 +101,11 @@ void GameManager::monsterMove() {
                     if (newTile.tileType == Tile::CARROT) {
                         monsterKilled++;
                         carrot.hp -= monster.damage;
+
+                        if (carrot.hp <= 0) {
+                            lose();
+                            return;
+                        }
                     } else {
                         if (tiles[Y][X].tileDirection != NONE) monster.direction = tiles[Y][X].tileDirection;
                         monster.moveTimer += (monster.speed / ((monster.slowed > 0) + 1));
@@ -159,10 +173,10 @@ void GameManager::towerDamage(int y, int x) {
                 monster.hp -= tower.atkDamage[level];
 
                 if (tower.name == "BStar") {
-                    starTiles[{Y, X}] = {1, 5 * 16 * 2};
+                    specialTiles.insert({Y, X}, {1, 5 * 16 * 2});
                     monster.slowed = 3000;
                 } else {
-                    starTiles[{Y, X}] = {0, 5 * 16 * 2};
+                    specialTiles.insert({Y, X}, {0, 5 * 16 * 2});
                 }
             }
         }
@@ -174,7 +188,7 @@ void GameManager::init(int mapIndex) {
     waveChange(waveIndex);
     monsterCounter = 0, monsterKilled = 0, monsterTimer = 0;
     tiles = vector(height, vector<Tile>(width));
-    starTiles.clear();
+    specialTiles.clear();
 
     // 加载ini
     QSettings settings(QString(":/res/Game/Path/p%1.ini").arg(mapIndex), QSettings::IniFormat);
@@ -249,18 +263,20 @@ QPixmap GameManager::getTileImage(int y, int x) {
             painter.drawPixmap(offset, target);
         }
 
-        if (starTiles.find({y, x}) != starTiles.end()) {
-            auto it = starTiles[{y, x}];
-            target = starAnime[it.first][it.second / 32];
-            offset = center - QPoint(target.width() / 2, target.height() / 2);
-            painter.drawPixmap(offset, target);
+        if (specialTiles.find({y, x}) != specialTiles.end()) {
+            auto items = specialTiles.values({y, x});
+            specialTiles.remove({y, x});
+            for (auto it: items) {
+                target = specialAnime[it.first][it.second / 32];
+                offset = center - QPoint(target.width() / 2, target.height() / 2);
+                painter.drawPixmap(offset, target);
 
-            it.second -= 16;
-            if (it.second < 0) {
-                starTiles.erase({y, x});
-            } else {
-                starTiles[{y, x}] = it;
+                it.second -= 16;
+                if (it.second > 0) {
+                    specialTiles.insert({y, x}, it);
+                }
             }
+
         }
     }
     return pixmap;

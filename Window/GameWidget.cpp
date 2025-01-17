@@ -39,6 +39,8 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget
     connect(&gameManager, &GameManager::coinChange, [this](int coin) {
         ui->coinsLb->setText(QString::number(coin));
     });
+    connect(&gameManager, &GameManager::win, this, &GameWidget::win);
+    connect(&gameManager, &GameManager::lose, this, &GameWidget::lose);
 }
 
 GameWidget::~GameWidget() { delete ui; }
@@ -66,29 +68,29 @@ void GameWidget::on_menuBtn_clicked() {
     if (isCountDown) return;
 
     timer.stop();
-    auto msgBox = new QMessageBox;
-    msgBox->setWindowTitle("菜单");
-    msgBox->setText("你想要做什么？");
-    msgBox->setIcon(QMessageBox::Question);
-    msgBox->addButton("继续", QMessageBox::ActionRole);
-    QPushButton *restartBtn = msgBox->addButton("重来", QMessageBox::ActionRole);
-    QPushButton *backBtn = msgBox->addButton("选关", QMessageBox::ActionRole);
-    msgBox->exec();
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("菜单");
+    msgBox.setText("你想要做什么？");
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.addButton("继续", QMessageBox::ActionRole);
+    QPushButton *restartBtn = msgBox.addButton("重来", QMessageBox::ActionRole);
+    QPushButton *backBtn = msgBox.addButton("选关", QMessageBox::ActionRole);
+    msgBox.exec();
 
-    if (msgBox->clickedButton() == restartBtn) {
+    if (msgBox.clickedButton() == restartBtn) {
         // 发送信号，重新加载游戏
         stopGame();
         restart();
-    } else if (msgBox->clickedButton() == backBtn) {
+    } else if (msgBox.clickedButton() == backBtn) {
         stopGame();
         toSelectPage();
     } else if (!isPause) {
         timer.start();
     }
-    delete msgBox;
 }
 
 void GameWidget::loadGame(int mapIndex) {
+    this->mapIndex = mapIndex;
     // 加载地图
     auto gameView = ui->gameView;
     gameView->setMap(mapIndex);
@@ -119,10 +121,6 @@ void GameWidget::stopGame() {
     setBtnBackground(ui->pauseBtn,
                      ":/res/Game/Framework/pauseBtn.png",
                      ":/res/Game/Framework/pauseBtnP.png");
-
-    // TODO:gameManager
-
-    // gameView
 }
 
 
@@ -141,6 +139,50 @@ void GameWidget::countDown() {
         QTimer::singleShot(1000, [this] {
             isCountDown = false;
         });
+    }
+}
+
+void GameWidget::win(int hp) {
+    stopGame();
+
+    QMessageBox msgBox;
+    msgBox.setStandardButtons(QMessageBox::NoButton);
+    msgBox.setWindowFlags(Qt::FramelessWindowHint);
+
+    // 创建标签显示图片
+    int imgIndex = (hp == 10 ? 2 : (hp <= 3 ? 0 : 1));
+    QLabel *imageLabel = new QLabel;
+    QPixmap pixmap(QString(":/res/Game/Framework/honor%1.png").arg(imgIndex));
+    imageLabel->setPixmap(pixmap);
+    imageLabel->setFixedSize(400, 550);
+    msgBox.layout()->addWidget(imageLabel);
+
+    auto button = new QPushButton("非常简单！");
+    auto *hLayout = new QVBoxLayout;
+
+    hLayout->addWidget(imageLabel);
+    hLayout->addWidget(button);
+
+    // 设置消息框的布局
+    QWidget *container = new QWidget;
+    container->setLayout(hLayout);
+    msgBox.layout()->addWidget(container);
+
+    connect(button, &QPushButton::clicked, &msgBox, &QMessageBox::accept);
+    connect(button, &QPushButton::clicked, this, &GameWidget::toSelectPage);
+    msgBox.exec();
+}
+
+void GameWidget::lose() {
+    stopGame();
+
+    QMessageBox msgBox;
+    msgBox.setText("胡萝卜被吃掉了😭");
+    auto button = msgBox.addButton("再试一次！", QMessageBox::ActionRole);
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == button) {
+        restart();
     }
 }
 

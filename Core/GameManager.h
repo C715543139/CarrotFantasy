@@ -3,7 +3,7 @@
 
 #include <QPainter>
 #include <QRandomGenerator>
-#include <map>
+#include <QMultiMap>
 #include "Map.h"
 using std::map;
 
@@ -33,8 +33,8 @@ private:
     Nest nest;
     Carrot carrot;
     vector<vector<Tile>> tiles;
-    vector<vector<QPixmap>> starAnime;
-    map<std::pair<int, int>, std::pair<int, int>> starTiles; // type, index
+    vector<vector<QPixmap>> specialAnime;
+    QMultiMap<std::pair<int, int>, std::pair<int, int>> specialTiles; // type, index
 
     void monsterMove();
     void towerAttack();
@@ -43,6 +43,8 @@ private:
 signals:
     void waveChange(int wave);
     void coinChange(int coin);
+    void lose();
+    void win(int hp);
 };
 
 #endif // GAMEMANAGER_H

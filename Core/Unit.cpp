@@ -108,8 +108,14 @@ QPixmap Carrot::getImage() {
     return anime[hp - 1];
 }
 
-Nest::Nest(int y, int x) : Unit(y, x), anime(QPixmap(":/res/Game/Monsters/nest.png")) {}
+Nest::Nest(int y, int x) : Unit(y, x), bornTimer(0),
+                           nest(":/res/Game/Monsters/nest.png"),
+                           born(":/res/Game/Monsters/born.png") {}
 
 QPixmap Nest::getImage() {
-    return anime;
+    if (bornTimer > 0) {
+        bornTimer -= 16;
+        return born;
+    }
+    return nest;
 }

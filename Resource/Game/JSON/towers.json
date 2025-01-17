@@ -10,7 +10,7 @@
   "Star1": {
     "SellValue": 304,
     "AttackRange": 2,
-    "AttackSpace": 3,
+    "AttackSpace": 2,
     "UpgradeCost": 260,
     "CreateCost": 0,
     "AttackDamage": 40
@@ -18,7 +18,7 @@
   "Star2": {
     "SellValue": 512,
     "AttackRange": 2,
-    "AttackSpace": 2,
+    "AttackSpace": 1,
     "UpgradeCost": -1,
     "CreateCost": 0,
     "AttackDamage": 70
@@ -34,7 +34,7 @@
   "BStar1": {
     "SellValue": 352,
     "AttackRange": 2,
-    "AttackSpace": 3,
+    "AttackSpace": 2,
     "UpgradeCost": 320,
     "CreateCost": 0,
     "AttackDamage": 30
@@ -42,7 +42,7 @@
   "BStar2": {
     "SellValue": 608,
     "AttackRange": 2,
-    "AttackSpace": 2,
+    "AttackSpace": 1,
     "UpgradeCost": -1,
     "CreateCost": 0,
     "AttackDamage": 50

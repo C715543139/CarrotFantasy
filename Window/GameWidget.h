@@ -32,11 +32,13 @@ private slots:
     void on_menuBtn_clicked();
     void updateGame();
     void countDown();
+    void win(int hp);
+    void lose();
 
 private:
     Ui::GameWidget *ui;
     bool isPause, isCountDown;
-    int count;
+    int count, mapIndex;
     QTimer timer, countTimer;
     GameManager gameManager;
 };

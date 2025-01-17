@@ -165,5 +165,15 @@
         <file>Game/Tower/BStar/PBStar3.png</file>
         <file>Game/Tower/BStar/PBStar4.png</file>
         <file>Game/Tower/BStar/PBStar5.png</file>
+        <file>Game/Monsters/Death/air0.png</file>
+        <file>Game/Monsters/Death/air1.png</file>
+        <file>Game/Monsters/Death/air2.png</file>
+        <file>Game/Monsters/Death/air3.png</file>
+        <file>Game/Monsters/Death/air4.png</file>
+        <file>Game/Monsters/Death/air5.png</file>
+        <file>Game/Framework/honor0.png</file>
+        <file>Game/Framework/honor1.png</file>
+        <file>Game/Framework/honor2.png</file>
+        <file>Game/Monsters/born.png</file>
     </qresource>
 </RCC>
