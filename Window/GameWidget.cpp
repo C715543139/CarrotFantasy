@@ -36,6 +36,9 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget
     connect(&gameManager, &GameManager::waveChange, [this](int wave) {
         ui->waveLb->setText(QString::number(wave / 10) + "  " + QString::number(wave % 10));
     });
+    connect(&gameManager, &GameManager::coinChange, [this](int coin) {
+        ui->coinsLb->setText(QString::number(coin));
+    });
 }
 
 GameWidget::~GameWidget() { delete ui; }
@@ -164,15 +167,57 @@ void GameView::updateView() {
     for (int i = 0; i < gameManager->height; i++) {
         for (int j = 0; j < gameManager->width; j++) {
             auto item = scene->addPixmap(gameManager->getTileImage(i, j));
-            item->setPos(j * gameManager->tileSize - 105, i * gameManager->tileSize - 105);
+            item->setPos(j * gameManager->tileSize - 155, i * gameManager->tileSize - 155);
+        }
+    }
+}
+
+const QList<QString> towerNames{"Sun", "Snow", "Star", "BStar"};
+
+void GameView::placeMsg(int posY, int posX) {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("放置");
+    msgBox.setText("你想要放什么？");
+    msgBox.setIcon(QMessageBox::Question);
+
+    QString styleSheet = "QPushButton {"
+            "border: none;"
+            "background-image: url(:/res/Game/Tower/%1/I%1%2.png);"
+            "}";
+
+    // 设置图标
+    vector<QPushButton *> buttons;
+    vector<bool> valid;
+    for (int i = 0; i < towerNames.size(); i++) {
+        auto button = msgBox.addButton(" ", QMessageBox::ActionRole);
+        buttons.push_back(button);
+        button->setFixedSize(76, 78);
+        valid.push_back(gameManager->enoughCoin(towerNames[i]));
+        button->setStyleSheet(styleSheet.arg(towerNames[i]).arg(valid[i]));
+    }
+    auto button = msgBox.addButton("手滑了", QMessageBox::ActionRole);
+    button->setFixedSize(76, 78);
+    button->setStyleSheet("QPushButton {"
+        "border: none;"
+        "background: transparent;"
+        "}");
+    msgBox.exec();
+
+    for (int i = 0; i < towerNames.size(); i++) {
+        if (msgBox.clickedButton() == buttons[i] && valid[i]) {
+            gameManager->addTower(posY, posX, towerNames[i]);
         }
     }
 }
 
 void GameView::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton && !*isCountDown) {
-        QPoint pos = event->pos();
-        gameManager->addTower(pos.y(), pos.x(), "Star");
+        int posY = event->pos().y(), posX = event->pos().x();
+        int doWhat = gameManager->canPlaceTower(posY, posX);
+        if (doWhat == 1) {
+        } else if (doWhat == 2) {
+            placeMsg(posY, posX);
+        }
     }
     QGraphicsView::mousePressEvent(event);
 }

@@ -3,10 +3,16 @@
 
 GameManager::GameManager()
     : tiles(vector(height, vector<Tile>(width))),
-      nest(0, 0), carrot(0, 0),
+      nest(0, 0), carrot(0, 0), coin(0),
       waveIndex(1), waveMax(15), waveTimer(0),
-      monsterCounter(0), monsterKilled(0), monsterTimer(0)
-{}
+      monsterCounter(0), monsterKilled(0), monsterTimer(0) {
+    // 初始化星星动画
+    starAnime.resize(2);
+    for (int i = 0; i < 6; i++) {
+        starAnime[0].push_back(QPixmap(QString(":/res/Game/Tower/Star/PStar%1.png").arg(i)));
+        starAnime[1].push_back(QPixmap(QString(":/res/Game/Tower/BStar/PBStar%1.png").arg(i)));
+    }
+}
 
 GameManager::~GameManager() {}
 
@@ -58,12 +64,26 @@ void GameManager::monsterMove() {
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             for (auto monster: tiles[y][x].monsters) {
+                // 死亡判定
                 if (monster.hp <= 0) {
+                    coinChange(coin += monster.value);
                     monsterKilled++;
                     continue;
                 }
 
-                if (monster.moveTimer >= tileSize) {
+                // 状态更新
+                if (monster.frozen > 0) {
+                    monster.frozen -= 16;
+                }
+                if (monster.fired > 0) {
+                    monster.fired -= 16;
+                }
+                if (monster.slowed > 0) {
+                    monster.slowed -= 16;
+                }
+
+                // 更新位置
+                if (monster.moveTimer >= tileSize && monster.frozen <= 0) {
                     monster.moveTimer = 0;
                     int Y = (monster.y += (monster.direction == DOWN) - (monster.direction == UP)),
                             X = (monster.x += (monster.direction == RIGHT) - (monster.direction == LEFT));
@@ -74,11 +94,11 @@ void GameManager::monsterMove() {
                         carrot.hp -= monster.damage;
                     } else {
                         if (tiles[Y][X].tileDirection != NONE) monster.direction = tiles[Y][X].tileDirection;
-                        monster.moveTimer += monster.speed;
+                        monster.moveTimer += (monster.speed / ((monster.slowed > 0) + 1));
                         newTiles[Y][X].monsters.push_back(monster);
                     }
                 } else {
-                    monster.moveTimer += monster.speed;
+                    monster.moveTimer += (monster.speed / ((monster.slowed > 0) + 1));
                     newTiles[monster.y][monster.x].monsters.push_back(monster);
                 }
             }
@@ -111,18 +131,21 @@ void GameManager::towerDamage(int y, int x) {
 
     if (tower.name == "Sun" || tower.name == "Snow") {
         for (int i = y - tower.atkRange[level]; i <= y + tower.atkRange[level]; i++) {
-            for (int j = x - tower.atkRange[level]; j < x + tower.atkRange[level]; j++) {
+            for (int j = x - tower.atkRange[level]; j <= x + tower.atkRange[level]; j++) {
                 if (i < 0 || i >= height || j < 0 || j >= width) continue;
                 for (auto &monster: tiles[i][j].monsters) {
                     tower.CDTimer = 1; // 进入CD
                     monster.hp -= tower.atkDamage[level];
+
+                    if (tower.name == "Sun") monster.fired = 500;
+                    if (tower.name == "Snow") monster.frozen = 1500;
                 }
             }
         }
     } else {
         vector<std::pair<int, int>> monsterTiles;
         for (int i = y - tower.atkRange[level]; i <= y + tower.atkRange[level]; i++) {
-            for (int j = x - tower.atkRange[level]; j < x + tower.atkRange[level]; j++) {
+            for (int j = x - tower.atkRange[level]; j <= x + tower.atkRange[level]; j++) {
                 if (i < 0 || i >= height || j < 0 || j >= width) continue;
                 if (!tiles[i][j].monsters.empty()) monsterTiles.push_back({i, j});
             }
@@ -134,6 +157,13 @@ void GameManager::towerDamage(int y, int x) {
             for (auto &monster: tiles[Y][X].monsters) {
                 tower.CDTimer = 1;
                 monster.hp -= tower.atkDamage[level];
+
+                if (tower.name == "BStar") {
+                    starTiles[{Y, X}] = {1, 5 * 16 * 2};
+                    monster.slowed = 3000;
+                } else {
+                    starTiles[{Y, X}] = {0, 5 * 16 * 2};
+                }
             }
         }
     }
@@ -144,6 +174,7 @@ void GameManager::init(int mapIndex) {
     waveChange(waveIndex);
     monsterCounter = 0, monsterKilled = 0, monsterTimer = 0;
     tiles = vector(height, vector<Tile>(width));
+    starTiles.clear();
 
     // 加载ini
     QSettings settings(QString(":/res/Game/Path/p%1.ini").arg(mapIndex), QSettings::IniFormat);
@@ -153,7 +184,8 @@ void GameManager::init(int mapIndex) {
         for (int i = 0, x = 0, y = 0; i < amount; i++) {
             stringstream ss(settings.value(key + "/" + QString::number(i)).toString().toStdString());
             ss >> y >> x;
-            (dir == NONE) ? (tiles[y][x].tileType = type) : (tiles[y][x].tileDirection = dir);
+            if (dir == NONE) tiles[y][x].tileType = type;
+            else tiles[y][x].tileDirection = dir;
         }
     };
 
@@ -178,16 +210,20 @@ void GameManager::init(int mapIndex) {
     setTile("Right", Tile::EMPTY, RIGHT);
     setTile("Up", Tile::EMPTY, UP);
     setTile("Down", Tile::EMPTY, DOWN);
+
+    // 设置金币
+    coinChange(coin = settings.value("Coin/amount").toInt());
 }
 
 QPixmap GameManager::getTileImage(int y, int x) {
     Tile &tile = tiles[y][x];
-    QPixmap pixmap(300, 300), target;
+    QPixmap pixmap(400, 400), target;
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::Antialiasing);
     QPoint center = pixmap.rect().center(), offset;
 
+    // 中心对齐
     if (tile.tileType == Tile::NEST) {
         target = nest.getImage();
         offset = center - QPoint(target.width() / 2, target.height() / 2);
@@ -212,15 +248,40 @@ QPixmap GameManager::getTileImage(int y, int x) {
             offset = center - QPoint(target.width() / 2, target.height() / 2);
             painter.drawPixmap(offset, target);
         }
-    }
 
+        if (starTiles.find({y, x}) != starTiles.end()) {
+            auto it = starTiles[{y, x}];
+            target = starAnime[it.first][it.second / 32];
+            offset = center - QPoint(target.width() / 2, target.height() / 2);
+            painter.drawPixmap(offset, target);
+
+            it.second -= 16;
+            if (it.second < 0) {
+                starTiles.erase({y, x});
+            } else {
+                starTiles[{y, x}] = it;
+            }
+        }
+    }
     return pixmap;
+}
+
+// 0为无反应, 1升级, 2放置
+int GameManager::canPlaceTower(int posY, int posX) {
+    int y = posY / tileSize, x = posX / tileSize;
+    auto &tile = tiles[y][x];
+    if (tile.tileType == Tile::EMPTY) return tile.towers.empty() + 1;
+    return 0;
 }
 
 void GameManager::addTower(int posY, int posX, const QString &name) {
     int y = posY / tileSize, x = posX / tileSize;
     auto &tile = tiles[y][x];
-    if (tile.tileType == Tile::EMPTY && tile.towers.empty()) {
-        tile.towers.push_back(Tower(y, x, name));
-    }
+    auto tower = Tower(y, x, name);
+    tile.towers.push_back(tower);
+    coinChange(coin -= tower.createCost);
+}
+
+bool GameManager::enoughCoin(const QString &name) {
+    return coin >= Tower(0, 0, name).createCost;
 }

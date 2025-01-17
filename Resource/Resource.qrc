@@ -116,5 +116,54 @@
         <file>Game/Tower/Star/NStar0.png</file>
         <file>Game/Tower/Star/NStar1.png</file>
         <file>Game/Tower/Star/NStar2.png</file>
+        <file>Game/Tower/BStar/ABStar00.png</file>
+        <file>Game/Tower/BStar/ABStar01.png</file>
+        <file>Game/Tower/BStar/ABStar02.png</file>
+        <file>Game/Tower/BStar/ABStar10.png</file>
+        <file>Game/Tower/BStar/ABStar11.png</file>
+        <file>Game/Tower/BStar/ABStar12.png</file>
+        <file>Game/Tower/BStar/ABStar20.png</file>
+        <file>Game/Tower/BStar/ABStar21.png</file>
+        <file>Game/Tower/BStar/ABStar22.png</file>
+        <file>Game/Tower/BStar/IBStar0.png</file>
+        <file>Game/Tower/BStar/IBStar1.png</file>
+        <file>Game/Tower/BStar/NBStar0.png</file>
+        <file>Game/Tower/BStar/NBStar1.png</file>
+        <file>Game/Tower/BStar/NBStar2.png</file>
+        <file>Game/Tower/Snow/ASnow00.png</file>
+        <file>Game/Tower/Snow/ASnow01.png</file>
+        <file>Game/Tower/Snow/ASnow02.png</file>
+        <file>Game/Tower/Snow/ASnow03.png</file>
+        <file>Game/Tower/Snow/ASnow04.png</file>
+        <file>Game/Tower/Snow/ASnow10.png</file>
+        <file>Game/Tower/Snow/ASnow11.png</file>
+        <file>Game/Tower/Snow/ASnow12.png</file>
+        <file>Game/Tower/Snow/ASnow13.png</file>
+        <file>Game/Tower/Snow/ASnow14.png</file>
+        <file>Game/Tower/Snow/ASnow20.png</file>
+        <file>Game/Tower/Snow/ASnow21.png</file>
+        <file>Game/Tower/Snow/ASnow22.png</file>
+        <file>Game/Tower/Snow/ASnow23.png</file>
+        <file>Game/Tower/Snow/ASnow24.png</file>
+        <file>Game/Tower/Snow/NSnow0.png</file>
+        <file>Game/Tower/Snow/NSnow1.png</file>
+        <file>Game/Tower/Snow/NSnow2.png</file>
+        <file>Game/Tower/Snow/ISnow0.png</file>
+        <file>Game/Tower/Snow/ISnow1.png</file>
+        <file>Game/Monsters/Effect/fired.png</file>
+        <file>Game/Monsters/Effect/frozen.png</file>
+        <file>Game/Monsters/Effect/slowed.png</file>
+        <file>Game/Tower/Star/PStar0.png</file>
+        <file>Game/Tower/Star/PStar1.png</file>
+        <file>Game/Tower/Star/PStar2.png</file>
+        <file>Game/Tower/Star/PStar3.png</file>
+        <file>Game/Tower/Star/PStar4.png</file>
+        <file>Game/Tower/Star/PStar5.png</file>
+        <file>Game/Tower/BStar/PBStar0.png</file>
+        <file>Game/Tower/BStar/PBStar1.png</file>
+        <file>Game/Tower/BStar/PBStar2.png</file>
+        <file>Game/Tower/BStar/PBStar3.png</file>
+        <file>Game/Tower/BStar/PBStar4.png</file>
+        <file>Game/Tower/BStar/PBStar5.png</file>
     </qresource>
 </RCC>

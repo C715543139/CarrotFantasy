@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QPixmap>
+#include <QPainter>
 #include <vector>
 using std::vector;
 
@@ -32,8 +33,10 @@ private:
     int speed, value, hp, damage;
     int animeIndex, animeTimer;
     int moveTimer;
+    int frozen, fired, slowed;
     QPixmap anime1, anime2;
     Direction direction;
+    QPixmap frozenImage, firedImage, slowedImage;
 };
 
 class Tower : public Unit {

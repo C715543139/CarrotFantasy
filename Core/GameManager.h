@@ -3,7 +3,9 @@
 
 #include <QPainter>
 #include <QRandomGenerator>
+#include <map>
 #include "Map.h"
+using std::map;
 
 class GameManager: public QObject {
     Q_OBJECT
@@ -16,14 +18,19 @@ public:
     void update();
     void init(int mapIndex);
     QPixmap getTileImage(int y, int x);
+    int canPlaceTower(int posY, int posX);
     void addTower(int posY, int posX, const QString &name);
+    bool enoughCoin(const QString &name);
 
 private:
+    int monsterCounter, monsterKilled, monsterTimer;
+    int waveIndex, waveMax, waveTimer;
+    int coin;
     vector<vector<Tile>> tiles;
     Nest nest;
     Carrot carrot;
-    int waveIndex, waveMax, waveTimer;
-    int monsterCounter, monsterKilled, monsterTimer;
+    map<std::pair<int, int>, std::pair<int, int>> starTiles; // type, index
+    vector<vector<QPixmap>> starAnime;
 
     void monsterMove();
     void towerAttack();
@@ -31,6 +38,7 @@ private:
 
 signals:
     void waveChange(int wave);
+    void coinChange(int coin);
 };
 
 #endif // GAMEMANAGER_H

@@ -3,9 +3,12 @@
 
 Unit::Unit(int y, int x) : y(y), x(x) {}
 
-
 Monster::Monster(int y, int x, const QString &name, Direction dir)
-    : Unit(y, x), animeIndex(1), animeTimer(0), moveTimer(0), direction(dir) {
+    : Unit(y, x), animeIndex(1), animeTimer(0), moveTimer(0), direction(dir),
+      frozen(0), fired(0), slowed(0),
+      frozenImage{":/res/Game/Monsters/Effect/frozen.png"},
+      firedImage{":/res/Game/Monsters/Effect/fired.png"},
+      slowedImage{":/res/Game/Monsters/Effect/slowed.png"} {
     // 读取文件内容
     QFile file(":/res/Game/JSON/monsters.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -32,7 +35,27 @@ QPixmap Monster::getImage() {
             animeIndex = 1;
         }
     }
-    return (animeIndex == 1) ? anime1 : anime2;
+
+    QPixmap pixmap(200, 200), target(animeIndex == 1 ? anime1 : anime2);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+    QPoint offset = pixmap.rect().center() - QPoint(target.width() / 2, target.height() / 2);
+    painter.drawPixmap(offset, target);
+
+    if (frozen > 0) {
+        offset = QPoint((pixmap.width() - frozenImage.width()) / 2, 100);
+        painter.drawPixmap(offset, frozenImage);
+    }
+    if (fired > 0) {
+        offset = QPoint((pixmap.width() - firedImage.width()) / 2, 100);
+        painter.drawPixmap(offset, firedImage);
+    }
+    if (slowed > 0) {
+        offset = QPoint((pixmap.width() - slowedImage.width()) / 2, 100);
+        painter.drawPixmap(offset, slowedImage);
+    }
+    return pixmap;
 }
 
 Tower::Tower(int y, int x, const QString &name) : Unit(y, x), name(name), CDTimer(0) {
@@ -60,19 +83,19 @@ Tower::Tower(int y, int x, const QString &name) : Unit(y, x), name(name), CDTime
         if (name == "Star" || name == "BStar") {
             for (int j = 0; j < 3; j++) {
                 atkAnime[i].push_back(QPixmap(
-                    QString(":/res/Game/Tower/" + name + "/A" + name + "%1%2.png").arg(i, j)));
+                    QString(":/res/Game/Tower/" + name + "/A" + name + "%1%2.png").arg(i).arg(j)));
             }
         } else {
             for (int j = 0; j < 5; j++) {
                 atkAnime[i].push_back(QPixmap(
-                    QString(":/res/Game/Tower/" + name + "/A" + name + "%1%2.png").arg(i, j)));
+                    QString(":/res/Game/Tower/" + name + "/A" + name + "%1%2.png").arg(i).arg(j)));
             }
         }
     }
 }
 
 QPixmap Tower::getImage() {
-    if (CDTimer == 1)
+    if (CDTimer > 0 && CDTimer < atkAnime[level].size() * 64) return atkAnime[level][CDTimer / 64];
     return normalImage[level];
 }
 
