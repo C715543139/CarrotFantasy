@@ -27,7 +27,7 @@ Monster::Monster(int y, int x, const QString &name, Direction dir)
 
 QPixmap Monster::getImage() {
     animeTimer += 16;
-    if (animeTimer > 200) {
+    if (animeTimer > 48) {
         animeTimer = 0;
         if (animeIndex == 1) {
             animeIndex = 2;

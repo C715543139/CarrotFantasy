@@ -18,19 +18,23 @@ public:
     void update();
     void init(int mapIndex);
     QPixmap getTileImage(int y, int x);
-    int canPlaceTower(int posY, int posX);
+    int canPlaceTower(int posY, int posX) const;
     void addTower(int posY, int posX, const QString &name);
-    bool enoughCoin(const QString &name);
+    void upgradeTower(int posY, int posX);
+    void removeTower(int posY, int posX);
+    std::pair<int, int> getCost(int posY, int posX) const; // 升级, 出售
+    bool enoughToUpgrade(int posY, int posX) const;
+    bool enoughToPlace(const QString &name) const;
 
 private:
-    int monsterCounter, monsterKilled, monsterTimer;
-    int waveIndex, waveMax, waveTimer;
     int coin;
-    vector<vector<Tile>> tiles;
+    int waveIndex, waveMax, waveTimer;
+    int monsterCounter, monsterKilled, monsterTimer;
     Nest nest;
     Carrot carrot;
-    map<std::pair<int, int>, std::pair<int, int>> starTiles; // type, index
+    vector<vector<Tile>> tiles;
     vector<vector<QPixmap>> starAnime;
+    map<std::pair<int, int>, std::pair<int, int>> starTiles; // type, index
 
     void monsterMove();
     void towerAttack();

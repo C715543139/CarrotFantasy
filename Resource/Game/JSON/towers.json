@@ -19,7 +19,7 @@
     "SellValue": 512,
     "AttackRange": 2,
     "AttackSpace": 2,
-    "UpgradeCost": "-1",
+    "UpgradeCost": -1,
     "CreateCost": 0,
     "AttackDamage": 70
   },
@@ -43,7 +43,7 @@
     "SellValue": 608,
     "AttackRange": 2,
     "AttackSpace": 2,
-    "UpgradeCost": "-1",
+    "UpgradeCost": -1,
     "CreateCost": 0,
     "AttackDamage": 50
   },
@@ -67,7 +67,7 @@
     "SellValue": 608,
     "AttackRange": 2,
     "AttackSpace": 3,
-    "UpgradeCost": "-1",
+    "UpgradeCost": -1,
     "CreateCost": 0,
     "AttackDamage": 50
   },
@@ -91,7 +91,7 @@
     "SellValue": 560,
     "AttackRange": 2,
     "AttackSpace": 4,
-    "UpgradeCost": "-1",
+    "UpgradeCost": -1,
     "CreateCost": 0,
     "AttackDamage": 50
   }

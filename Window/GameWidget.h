@@ -62,6 +62,7 @@ private:
     void setMap(int mapIndex);
     void updateView();
     void placeMsg(int posY, int posX);
+    void manageMsg(int posY, int posX);
 };
 
 #endif // GAMEWIDGET_H

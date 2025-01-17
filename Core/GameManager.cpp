@@ -2,10 +2,10 @@
 
 
 GameManager::GameManager()
-    : tiles(vector(height, vector<Tile>(width))),
-      nest(0, 0), carrot(0, 0), coin(0),
-      waveIndex(1), waveMax(15), waveTimer(0),
-      monsterCounter(0), monsterKilled(0), monsterTimer(0) {
+    : coin(0), waveIndex(1), waveMax(15), waveTimer(0),
+      monsterCounter(0), monsterKilled(0), monsterTimer(0),
+      nest(0, 0), carrot(0, 0),
+      tiles(vector(height, vector<Tile>(width))) {
     // 初始化星星动画
     starAnime.resize(2);
     for (int i = 0; i < 6; i++) {
@@ -27,7 +27,7 @@ const QList<QString>
 void GameManager::update() {
     // 波次刷新
     waveTimer += 16;
-    if (waveTimer > 10000 && monsterCounter == monsterKilled) {
+    if (waveTimer > 50000 && monsterCounter == monsterKilled) {
         waveTimer = 0;
         waveIndex++;
         waveChange(waveIndex);
@@ -267,7 +267,7 @@ QPixmap GameManager::getTileImage(int y, int x) {
 }
 
 // 0为无反应, 1升级, 2放置
-int GameManager::canPlaceTower(int posY, int posX) {
+int GameManager::canPlaceTower(int posY, int posX) const {
     int y = posY / tileSize, x = posX / tileSize;
     auto &tile = tiles[y][x];
     if (tile.tileType == Tile::EMPTY) return tile.towers.empty() + 1;
@@ -282,6 +282,32 @@ void GameManager::addTower(int posY, int posX, const QString &name) {
     coinChange(coin -= tower.createCost);
 }
 
-bool GameManager::enoughCoin(const QString &name) {
+void GameManager::upgradeTower(int posY, int posX) {
+    int y = posY / tileSize, x = posX / tileSize;
+    auto &tower = tiles[y][x].towers[0];
+    coinChange(coin -= tower.upgradeCost[tower.level]);
+    tower.level++;
+}
+
+void GameManager::removeTower(int posY, int posX) {
+    int y = posY / tileSize, x = posX / tileSize;
+    auto &tower = tiles[y][x].towers[0];
+    coinChange(coin += tower.sellValue[tower.level]);
+    tiles[y][x].towers.clear();
+}
+
+std::pair<int, int> GameManager::getCost(int posY, int posX) const {
+    int y = posY / tileSize, x = posX / tileSize;
+    auto &tower = tiles[y][x].towers[0];
+    return {tower.upgradeCost[tower.level], tower.sellValue[tower.level]};
+}
+
+bool GameManager::enoughToUpgrade(int posY, int posX) const {
+    int y = posY / tileSize, x = posX / tileSize;
+    auto &tower = tiles[y][x].towers[0];
+    return coin >= tower.upgradeCost[tower.level];
+}
+
+bool GameManager::enoughToPlace(const QString &name) const {
     return coin >= Tower(0, 0, name).createCost;
 }

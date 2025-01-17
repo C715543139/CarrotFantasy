@@ -192,7 +192,7 @@ void GameView::placeMsg(int posY, int posX) {
         auto button = msgBox.addButton(" ", QMessageBox::ActionRole);
         buttons.push_back(button);
         button->setFixedSize(76, 78);
-        valid.push_back(gameManager->enoughCoin(towerNames[i]));
+        valid.push_back(gameManager->enoughToPlace(towerNames[i]));
         button->setStyleSheet(styleSheet.arg(towerNames[i]).arg(valid[i]));
     }
     auto button = msgBox.addButton("手滑了", QMessageBox::ActionRole);
@@ -210,11 +210,41 @@ void GameView::placeMsg(int posY, int posX) {
     }
 }
 
+void GameView::manageMsg(int posY, int posX) {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("管理");
+    msgBox.setText("你想要这个塔如何？");
+    msgBox.setIcon(QMessageBox::Question);
+
+    auto upgrade = msgBox.addButton(" ", QMessageBox::ActionRole),
+            sell = msgBox.addButton(" ", QMessageBox::ActionRole),
+            nothing = msgBox.addButton("手滑了", QMessageBox::ActionRole);
+
+    auto cost = gameManager->getCost(posY, posX);
+    upgrade->setText("升级 -" + QString::number(cost.first));
+    sell->setText("出售 +" + QString::number(cost.second));
+    bool invalid = !gameManager->enoughToUpgrade(posY, posX) || cost.first == -1;
+    if (!gameManager->enoughToUpgrade(posY, posX)) {
+        upgrade->setStyleSheet("text-decoration: line-through;");
+    } else if (cost.first == -1) {
+        upgrade->setText("顶级");
+    }
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == upgrade && !invalid) {
+        gameManager->upgradeTower(posY, posX);
+    } else if (msgBox.clickedButton() == sell) {
+        gameManager->removeTower(posY, posX);
+    }
+}
+
+
 void GameView::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton && !*isCountDown) {
         int posY = event->pos().y(), posX = event->pos().x();
         int doWhat = gameManager->canPlaceTower(posY, posX);
         if (doWhat == 1) {
+            manageMsg(posY, posX);
         } else if (doWhat == 2) {
             placeMsg(posY, posX);
         }
