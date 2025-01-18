@@ -175,5 +175,7 @@
         <file>Game/Framework/honor1.png</file>
         <file>Game/Framework/honor2.png</file>
         <file>Game/Monsters/born.png</file>
+        <file>Game/Path/p1.ini</file>
+        <file>Game/Path/p2.ini</file>
     </qresource>
 </RCC>

@@ -90,7 +90,6 @@ void GameWidget::on_menuBtn_clicked() {
 }
 
 void GameWidget::loadGame(int mapIndex) {
-    this->mapIndex = mapIndex;
     // 加载地图
     auto gameView = ui->gameView;
     gameView->setMap(mapIndex);
@@ -125,8 +124,7 @@ void GameWidget::stopGame() {
 
 
 void GameWidget::updateGame() {
-    gameManager.update();
-    ui->gameView->updateView();
+    if (gameManager.update()) ui->gameView->updateView();
 }
 
 void GameWidget::countDown() {
@@ -146,38 +144,30 @@ void GameWidget::win(int hp) {
     stopGame();
 
     QMessageBox msgBox;
-    msgBox.setStandardButtons(QMessageBox::NoButton);
     msgBox.setWindowFlags(Qt::FramelessWindowHint);
 
-    // 创建标签显示图片
-    int imgIndex = (hp == 10 ? 2 : (hp <= 3 ? 0 : 1));
-    QLabel *imageLabel = new QLabel;
-    QPixmap pixmap(QString(":/res/Game/Framework/honor%1.png").arg(imgIndex));
-    imageLabel->setPixmap(pixmap);
-    imageLabel->setFixedSize(400, 550);
-    msgBox.layout()->addWidget(imageLabel);
+    int honor = (hp == 10 ? 2 : (hp <= 3 ? 0 : 1));
+    QPixmap pixmap(QString(":/res/Game/Framework/honor%1.png").arg(honor));
+    msgBox.setIconPixmap(pixmap);
+    msgBox.setText("获得了" + QString(honor == 0 ? "木" : (honor == 1 ? "银" : "金")) + "萝卜！");
 
-    auto button = new QPushButton("非常简单！");
-    auto *hLayout = new QVBoxLayout;
-
-    hLayout->addWidget(imageLabel);
-    hLayout->addWidget(button);
-
-    // 设置消息框的布局
-    QWidget *container = new QWidget;
-    container->setLayout(hLayout);
-    msgBox.layout()->addWidget(container);
-
-    connect(button, &QPushButton::clicked, &msgBox, &QMessageBox::accept);
-    connect(button, &QPushButton::clicked, this, &GameWidget::toSelectPage);
+    auto button = msgBox.addButton("非常简单！", QMessageBox::ActionRole);
     msgBox.exec();
+
+    if (msgBox.clickedButton() == button) {
+        toSelectPage();
+    }
 }
 
 void GameWidget::lose() {
     stopGame();
 
     QMessageBox msgBox;
+    msgBox.setWindowTitle(" ");
     msgBox.setText("胡萝卜被吃掉了😭");
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setWindowFlags(Qt::FramelessWindowHint);
+
     auto button = msgBox.addButton("再试一次！", QMessageBox::ActionRole);
     msgBox.exec();
 

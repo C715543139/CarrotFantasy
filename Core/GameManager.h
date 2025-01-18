@@ -15,7 +15,7 @@ public:
 
     GameManager();
     ~GameManager();
-    void update();
+    bool update();
     void init(int mapIndex);
     QPixmap getTileImage(int y, int x);
     int canPlaceTower(int posY, int posX) const;
@@ -35,8 +35,7 @@ private:
     vector<vector<Tile>> tiles;
     vector<vector<QPixmap>> specialAnime;
     QMultiMap<std::pair<int, int>, std::pair<int, int>> specialTiles; // type, index
-
-    void monsterMove();
+    bool monsterMove();
     void towerAttack();
     void towerDamage(int y, int x);
 

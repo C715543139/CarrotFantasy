@@ -2,7 +2,7 @@
 
 
 GameManager::GameManager()
-    : coin(0), waveIndex(1), waveMax(1), waveTimer(0),
+    : coin(0), waveIndex(1), waveMax(15), waveTimer(0),
       monsterCounter(0), monsterKilled(0), monsterTimer(0),
       nest(0, 0), carrot(0, 0),
       tiles(vector(height, vector<Tile>(width))) {
@@ -18,18 +18,16 @@ GameManager::GameManager()
 GameManager::~GameManager() {}
 
 const QList<QString>
-        monsterNames = {
-            "land_star", "land_pink", "land_nima", "fly_yellow", "fly_blue", "fat_green"
-        },
-        bossNames = {
-            "land_boss_star", "land_boss_pink", "land_boss_nima", "fly_boss_yellow", "fly_boss_blue", "fat_boss_green"
-        };
+monsterNames = {
+    "land_star", "land_pink", "land_nima", "fly_yellow", "fly_blue", "fat_green",
+    "land_boss_star", "land_boss_pink", "land_boss_nima", "fly_boss_yellow", "fly_boss_blue", "fat_boss_green"
+};
 
-void GameManager::update() {
+bool GameManager::update() {
     // 胜利判定
-    if (waveIndex > waveMax && monsterCounter == monsterKilled) {
+    if (waveIndex >= waveMax && monsterCounter == monsterKilled) {
         win(carrot.hp);
-        return;
+        return false;
     }
 
     // 波次刷新
@@ -50,18 +48,17 @@ void GameManager::update() {
 
             // 随机选择生成的怪物
             QString name;
-            if (monsterCounter == waveIndex * 10) name = bossNames[QRandomGenerator::global()->bounded(0, 6)];
-            else name = monsterNames[QRandomGenerator::global()->bounded(0, 6)];
+            name = monsterNames[QRandomGenerator::global()->bounded(0, monsterNames.size() - 1)];
             tiles[nest.y][nest.x].monsters.push_back(
                 Monster(nest.y, nest.x, name, tiles[nest.y][nest.x].tileDirection));
         }
     }
 
     towerAttack();
-    monsterMove();
+    return monsterMove();
 }
 
-void GameManager::monsterMove() {
+bool GameManager::monsterMove() {
     // 创建新地图格
     vector newTiles(tiles);
     for (int y = 0; y < height; y++)
@@ -104,7 +101,7 @@ void GameManager::monsterMove() {
 
                         if (carrot.hp <= 0) {
                             lose();
-                            return;
+                            return false;
                         }
                     } else {
                         if (tiles[Y][X].tileDirection != NONE) monster.direction = tiles[Y][X].tileDirection;
@@ -119,6 +116,7 @@ void GameManager::monsterMove() {
         }
     }
     tiles = newTiles;
+    return true;
 }
 
 void GameManager::towerAttack() {
@@ -276,7 +274,6 @@ QPixmap GameManager::getTileImage(int y, int x) {
                     specialTiles.insert({y, x}, it);
                 }
             }
-
         }
     }
     return pixmap;

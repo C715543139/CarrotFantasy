@@ -38,7 +38,7 @@ private slots:
 private:
     Ui::GameWidget *ui;
     bool isPause, isCountDown;
-    int count, mapIndex;
+    int count;
     QTimer timer, countTimer;
     GameManager gameManager;
 };
