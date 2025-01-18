@@ -42,6 +42,8 @@ QPixmap Monster::getImage() {
     painter.setRenderHint(QPainter::Antialiasing);
     QPoint offset = pixmap.rect().center() - QPoint(target.width() / 2, target.height() / 2);
     painter.drawPixmap(offset, target);
+    painter.setPen(Qt::white);
+    painter.drawText(offset, QString::number(hp));
 
     if (frozen > 0) {
         offset = QPoint((pixmap.width() - frozenImage.width()) / 2, 100);

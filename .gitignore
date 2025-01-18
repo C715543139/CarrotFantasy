@@ -83,3 +83,4 @@ CMakeLists.txt.user*
 /cmake-build-debug-qt/
 /.idea/
 /PythonTool/
+/cmake-build-release-qt/
