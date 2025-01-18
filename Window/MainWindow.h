@@ -23,6 +23,7 @@ public:
     void gameStart();
 
 private:
+    int mapUnlock;
     Ui::MainWindow *ui;
     MainWidget *mainWidget; // 主页面
     SelectWidget *selectWidget; // 选择页面
@@ -30,5 +31,6 @@ private:
     QWidget *loadingWidget;
     QStackedWidget *stackedWidget; // 页面管理器
     Sound *sound;
+    QSettings settings;
 };
 #endif // MAINWINDOW_H

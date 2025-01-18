@@ -196,7 +196,7 @@ void GameManager::init(int mapIndex) {
     specialTiles.clear();
 
     // 加载ini
-    QSettings settings(QString(":/res/Game/Path/p%1.ini").arg(mapIndex), QSettings::IniFormat);
+    QSettings settings(QString("Resource/Game/Path/p%1.ini").arg(mapIndex), QSettings::IniFormat);
 
     auto setTile = [&](const QString &key, Tile::TileType type, Direction dir) {
         int amount = settings.value(key + "/amount").toInt();

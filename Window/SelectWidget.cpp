@@ -1,7 +1,9 @@
 #include "SelectWidget.h"
 #include "ui_SelectWidget.h"
 
-SelectWidget::SelectWidget(Sound *sound, QWidget *parent) : QWidget(parent), ui(new Ui::SelectWidget), sound(sound) {
+SelectWidget::SelectWidget(int &mapUnlock, Sound *sound, QWidget *parent)
+    : QWidget(parent), ui(new Ui::SelectWidget),
+      sound(sound) {
     ui->setupUi(this);
 
     // 选关背景
@@ -22,14 +24,26 @@ SelectWidget::SelectWidget(Sound *sound, QWidget *parent) : QWidget(parent), ui(
     connect(ui->leftBtn, &QPushButton::clicked, [this] { ui->mapImg->previousImage(); });
     connect(ui->rightBtn, &QPushButton::clicked, [this] { ui->mapImg->nextImage(); });
     connect(ui->backBtn, SIGNAL(clicked()), this, SIGNAL(toMainPage()));
-    connect(ui->playBtn, &QPushButton::clicked, [this, sound] {
+    connect(ui->playBtn, &QPushButton::clicked, [this, sound, &mapUnlock] {
         sound->playBtn();
-        toGamePage();
+        if (checkMapUnlock(mapUnlock)) toGamePage();
     });
     connect(ui->helpBtn, &QPushButton::clicked, [this] {
         QMessageBox::warning(this, "帮助", "你确定你不会玩保卫萝卜？");
     });
 }
+
+bool SelectWidget::checkMapUnlock(int &mapUnlock) {
+    if (mapUnlock > mapIndex()) return true;
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(" ");
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("还未解锁！");
+    msgBox.exec();
+    return false;
+}
+
 
 SelectWidget::~SelectWidget() { delete ui; }
 
@@ -74,30 +88,31 @@ void Slideshow::switchToImage(int newIndex, bool forward) {
     nextLabel->raise();
 
     // 根据方向设置初始位置
-    if(forward) {
-        nextLabel->setGeometry(width(), 0, width(), height());  // 从右边进入
+    if (forward) {
+        nextLabel->setGeometry(width(), 0, width(), height()); // 从右边进入
     } else {
         nextLabel->setGeometry(-width(), 0, width(), height()); // 从左边进入
     }
 
     // 创建动画组
-    QParallelAnimationGroup* group = new QParallelAnimationGroup(this);
+    QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
 
     // 设置动画结束位置
-    QRect currentEndRect = forward ?
-        QRect(-width(), 0, width(), height()) :  // 向左移出
-        QRect(width(), 0, width(), height());    // 向右移出
+    QRect currentEndRect = forward
+                               ? QRect(-width(), 0, width(), height())
+                               :                                     // 向左移出
+                               QRect(width(), 0, width(), height()); // 向右移出
     QRect nextEndRect(0, 0, width(), height());
 
     // 当前图片移出
-    QPropertyAnimation* currentAnim = new QPropertyAnimation(currentLabel, "geometry", group);
+    QPropertyAnimation *currentAnim = new QPropertyAnimation(currentLabel, "geometry", group);
     currentAnim->setDuration(300);
     currentAnim->setStartValue(currentLabel->geometry());
     currentAnim->setEndValue(currentEndRect);
     group->addAnimation(currentAnim);
 
     // 新图片移入
-    QPropertyAnimation* nextAnim = new QPropertyAnimation(nextLabel, "geometry", group);
+    QPropertyAnimation *nextAnim = new QPropertyAnimation(nextLabel, "geometry", group);
     nextAnim->setDuration(300);
     nextAnim->setStartValue(nextLabel->geometry());
     nextAnim->setEndValue(nextEndRect);
@@ -106,7 +121,7 @@ void Slideshow::switchToImage(int newIndex, bool forward) {
     // 动画完成后清理
     connect(group, &QParallelAnimationGroup::finished, this, [=]() {
         // 交换标签
-        QLabel* temp = currentLabel;
+        QLabel *temp = currentLabel;
         currentLabel = nextLabel;
         nextLabel = temp;
 

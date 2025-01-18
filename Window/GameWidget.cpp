@@ -1,7 +1,7 @@
 #include "GameWidget.h"
 #include "ui_GameWidget.h"
 
-GameWidget::GameWidget(Sound *sound, QWidget *parent)
+GameWidget::GameWidget(int &mapUnlock, Sound *sound, QWidget *parent)
     : QWidget(parent), ui(new Ui::GameWidget), isPause(false), isCountDown(false),
       sound(sound), gameManager(sound) {
     ui->setupUi(this);
@@ -42,7 +42,10 @@ GameWidget::GameWidget(Sound *sound, QWidget *parent)
     connect(&gameManager, &GameManager::coinChange, [this](int coin) {
         ui->coinsLb->setText(QString::number(coin));
     });
-    connect(&gameManager, &GameManager::win, this, &GameWidget::win);
+    connect(&gameManager, &GameManager::win, [&](int hp) {
+        mapUnlock++;
+        win(hp);
+    });
     connect(&gameManager, &GameManager::lose, this, &GameWidget::lose);
 }
 
@@ -196,7 +199,7 @@ GameView::~GameView() { delete scene; }
 void GameView::setMap(int mapIndex) {
     this->mapIndex = mapIndex;
     // 路径图片
-    QPixmap path(QString(":/res/Game/Path/p%1.png").arg(mapIndex));
+    QPixmap path(QString("Resource/Game/Path/p%1.png").arg(mapIndex));
     auto pathItem = scene->addPixmap(path);
     pathItem->setPos(0, 90);
 }

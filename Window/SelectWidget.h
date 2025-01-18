@@ -16,7 +16,7 @@ class SelectWidget : public QWidget {
     Q_OBJECT
 
 public:
-    SelectWidget(Sound *sound, QWidget *parent = nullptr);
+    SelectWidget(int &mapUnlock, Sound *sound, QWidget *parent = nullptr);
     ~SelectWidget();
     int mapIndex();
 
@@ -27,6 +27,8 @@ signals:
 private:
     Ui::SelectWidget *ui;
     Sound *sound;
+
+    bool checkMapUnlock(int &mapUnlock);
 };
 
 class Slideshow : public QWidget {

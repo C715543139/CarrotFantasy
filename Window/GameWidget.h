@@ -18,7 +18,7 @@ class GameWidget : public QWidget {
     Q_OBJECT
 
 public:
-    GameWidget(Sound *sound, QWidget *parent = nullptr);
+    GameWidget(int &mapUnlock, Sound *sound, QWidget *parent = nullptr);
     ~GameWidget();
     void loadGame(int mapIndex);
     void stopGame();

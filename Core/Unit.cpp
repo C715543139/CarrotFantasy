@@ -10,7 +10,7 @@ Monster::Monster(int y, int x, const QString &name, Direction dir)
       firedImage{":/res/Game/Monsters/Effect/fired.png"},
       slowedImage{":/res/Game/Monsters/Effect/slowed.png"} {
     // 读取文件内容
-    QFile file(":/res/Game/JSON/monsters.json");
+    QFile file("Resource/Game/JSON/monsters.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray jsonData = file.readAll();
     file.close();
@@ -59,7 +59,7 @@ QPixmap Monster::getImage() {
 }
 
 Tower::Tower(int y, int x, const QString &name) : Unit(y, x), name(name), CDTimer(0) {
-    QFile file(":/res/Game/JSON/towers.json");
+    QFile file("Resource/Game/JSON/towers.json");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray jsonData = file.readAll();
     file.close();

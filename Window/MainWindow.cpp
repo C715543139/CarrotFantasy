@@ -1,15 +1,20 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+      settings("save.ini", QSettings::IniFormat) {
     ui->setupUi(this);
+
+    // 加载存档
+    mapUnlock = settings.value("Map/index").toInt();
 
     setFixedSize(size()); // 固定窗口大小
 
     sound = new Sound;
     mainWidget = new MainWidget(sound);
-    selectWidget = new SelectWidget(sound);
-    gameWidget = new GameWidget(sound);
+    selectWidget = new SelectWidget(mapUnlock, sound);
+    gameWidget = new GameWidget(mapUnlock, sound);
     loadingWidget = new QWidget;
     loadingWidget->setStyleSheet(
         "width: 1080px;"
@@ -35,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 MainWindow::~MainWindow() {
+    settings.setValue("Map/index", mapUnlock);
     delete stackedWidget;
     delete ui;
 }
