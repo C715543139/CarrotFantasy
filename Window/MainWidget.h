@@ -2,6 +2,7 @@
 #define MAINWIDGET_H
 
 #include <QMovie>
+#include "../Core/Sound.h"
 #include "WindowTool.h"
 
 
@@ -13,7 +14,7 @@ class MainWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MainWidget(QWidget *parent = nullptr);
+    MainWidget(Sound *sound, QWidget *parent = nullptr);
     ~MainWidget();
 
 signals:
@@ -22,6 +23,7 @@ signals:
 private:
     Ui::MainWidget *ui;
     QMovie *movie;
+    Sound *sound;
 };
 
 #endif // MAINWIDGET_H

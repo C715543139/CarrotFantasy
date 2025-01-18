@@ -13,6 +13,7 @@ include_directories(Window)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -33,6 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             Core/Map.h Core/Map.cpp
             Core/Unit.h Core/Unit.cpp
             Core/GameManager.h Core/GameManager.cpp
+            Core/Sound.h Core/Sound.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET CarrotFantasy APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -53,6 +55,8 @@ else()
 endif()
 
 target_link_libraries(CarrotFantasy PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(CarrotFantasy PRIVATE Qt6::Multimedia)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

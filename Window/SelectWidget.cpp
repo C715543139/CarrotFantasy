@@ -1,7 +1,7 @@
 #include "SelectWidget.h"
 #include "ui_SelectWidget.h"
 
-SelectWidget::SelectWidget(QWidget *parent) : QWidget(parent), ui(new Ui::SelectWidget) {
+SelectWidget::SelectWidget(Sound *sound, QWidget *parent) : QWidget(parent), ui(new Ui::SelectWidget), sound(sound) {
     ui->setupUi(this);
 
     // 选关背景
@@ -22,7 +22,10 @@ SelectWidget::SelectWidget(QWidget *parent) : QWidget(parent), ui(new Ui::Select
     connect(ui->leftBtn, &QPushButton::clicked, [this] { ui->mapImg->previousImage(); });
     connect(ui->rightBtn, &QPushButton::clicked, [this] { ui->mapImg->nextImage(); });
     connect(ui->backBtn, SIGNAL(clicked()), this, SIGNAL(toMainPage()));
-    connect(ui->playBtn, SIGNAL(clicked()), this, SIGNAL(toGamePage()));
+    connect(ui->playBtn, &QPushButton::clicked, [this, sound] {
+        sound->playBtn();
+        toGamePage();
+    });
     connect(ui->helpBtn, &QPushButton::clicked, [this] {
         QMessageBox::warning(this, "帮助", "你确定你不会玩保卫萝卜？");
     });

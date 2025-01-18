@@ -1,7 +1,7 @@
 #include "MainWidget.h"
 #include "ui_MainWidget.h"
 
-MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget) {
+MainWidget::MainWidget(Sound *sound, QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget), sound(sound) {
     ui->setupUi(this);
 
     // 主页面背景
@@ -14,7 +14,10 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent), ui(new Ui::MainWidget
                      ":/res/MainScene/startBtn.png",
                      ":/res/MainScene/startBtnP.png");
 
-    connect(ui->startBtn, SIGNAL(clicked()), this, SIGNAL(toSelectPage()));
+    connect(ui->startBtn, &QPushButton::clicked, [this, sound] {
+        sound->playBtn();
+        toSelectPage();
+    });
 }
 
 MainWidget::~MainWidget() {

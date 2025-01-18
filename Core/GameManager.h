@@ -5,6 +5,7 @@
 #include <QRandomGenerator>
 #include <QMultiMap>
 #include "Map.h"
+#include "Sound.h"
 using std::map;
 
 class GameManager: public QObject {
@@ -13,7 +14,7 @@ class GameManager: public QObject {
 public:
     const int width = 12, height = 7, tileSize = 90;
 
-    GameManager();
+    explicit GameManager(Sound *sound);
     ~GameManager();
     bool update();
     void init(int mapIndex);
@@ -35,6 +36,8 @@ private:
     vector<vector<Tile>> tiles;
     vector<vector<QPixmap>> specialAnime;
     QMultiMap<std::pair<int, int>, std::pair<int, int>> specialTiles; // type, index
+    Sound *sound;
+
     bool monsterMove();
     void towerAttack();
     void towerDamage(int y, int x);

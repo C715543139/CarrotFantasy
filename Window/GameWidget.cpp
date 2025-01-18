@@ -1,10 +1,13 @@
 #include "GameWidget.h"
 #include "ui_GameWidget.h"
 
-GameWidget::GameWidget(QWidget *parent) : QWidget(parent), ui(new Ui::GameWidget), isPause(false), isCountDown(false) {
+GameWidget::GameWidget(Sound *sound, QWidget *parent)
+    : QWidget(parent), ui(new Ui::GameWidget), isPause(false), isCountDown(false),
+      sound(sound), gameManager(sound) {
     ui->setupUi(this);
     ui->gameView->gameManager = &gameManager;
     ui->gameView->isCountDown = &isCountDown;
+    ui->gameView->sound = sound;
 
     // 游戏背景
     ui->background->setStyleSheet("background-image: url(:/res/Game/Framework/gameBg.png);");
@@ -49,6 +52,7 @@ GameWidget::~GameWidget() { delete ui; }
 void GameWidget::on_pauseBtn_clicked() {
     if (isCountDown) return;
 
+    sound->menuBtn();
     isPause = !isPause;
     if (isPause) {
         timer.stop();
@@ -67,6 +71,7 @@ void GameWidget::on_pauseBtn_clicked() {
 void GameWidget::on_menuBtn_clicked() {
     if (isCountDown) return;
 
+    sound->menuBtn();
     timer.stop();
     QMessageBox msgBox;
     msgBox.setWindowTitle("菜单");
@@ -132,17 +137,21 @@ void GameWidget::countDown() {
     auto countItem = ui->gameView->scene->addPixmap(countImg);
     countItem->setPos(441, 173);
     if (count == 4) {
+        sound->GO();
         countTimer.stop();
         disconnect(&countTimer, &QTimer::timeout, this, &GameWidget::countDown);
         QTimer::singleShot(1000, [this] {
             isCountDown = false;
         });
+    } else {
+        sound->countDown();
     }
 }
 
 void GameWidget::win(int hp) {
     stopGame();
 
+    sound->win();
     QMessageBox msgBox;
     msgBox.setWindowFlags(Qt::FramelessWindowHint);
 
@@ -162,6 +171,7 @@ void GameWidget::win(int hp) {
 void GameWidget::lose() {
     stopGame();
 
+    sound->lose();
     QMessageBox msgBox;
     msgBox.setWindowTitle(" ");
     msgBox.setText("胡萝卜被吃掉了😭");
@@ -207,6 +217,8 @@ void GameView::updateView() {
 const QList<QString> towerNames{"Sun", "Snow", "Star", "BStar"};
 
 void GameView::placeMsg(int posY, int posX) {
+    sound->select();
+
     QMessageBox msgBox;
     msgBox.setWindowTitle("放置");
     msgBox.setText("你想要放什么？");
@@ -238,11 +250,16 @@ void GameView::placeMsg(int posY, int posX) {
     for (int i = 0; i < towerNames.size(); i++) {
         if (msgBox.clickedButton() == buttons[i] && valid[i]) {
             gameManager->addTower(posY, posX, towerNames[i]);
+            sound->place();
+            return;
         }
     }
+    sound->cancel();
 }
 
 void GameView::manageMsg(int posY, int posX) {
+    sound->select();
+
     QMessageBox msgBox;
     msgBox.setWindowTitle("管理");
     msgBox.setText("你想要这个塔如何？");
@@ -265,8 +282,12 @@ void GameView::manageMsg(int posY, int posX) {
 
     if (msgBox.clickedButton() == upgrade && !invalid) {
         gameManager->upgradeTower(posY, posX);
+        sound->upgrade();
     } else if (msgBox.clickedButton() == sell) {
         gameManager->removeTower(posY, posX);
+        sound->sell();
+    } else {
+        sound->cancel();
     }
 }
 
@@ -279,6 +300,8 @@ void GameView::mousePressEvent(QMouseEvent *event) {
             manageMsg(posY, posX);
         } else if (doWhat == 2) {
             placeMsg(posY, posX);
+        } else {
+            sound->selectFault();
         }
     }
     QGraphicsView::mousePressEvent(event);

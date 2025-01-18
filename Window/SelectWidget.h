@@ -5,6 +5,7 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QMessageBox>
+#include "../Core/Sound.h"
 #include "WindowTool.h"
 
 namespace Ui {
@@ -15,7 +16,7 @@ class SelectWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit SelectWidget(QWidget *parent = nullptr);
+    SelectWidget(Sound *sound, QWidget *parent = nullptr);
     ~SelectWidget();
     int mapIndex();
 
@@ -25,6 +26,7 @@ signals:
 
 private:
     Ui::SelectWidget *ui;
+    Sound *sound;
 };
 
 class Slideshow : public QWidget {
@@ -39,11 +41,11 @@ public:
     friend SelectWidget;
 
 private:
+    int currentIndex = 0;
+    bool isAnimating = false;
     QLabel *currentLabel;
     QLabel *nextLabel;
     QList<QPixmap> images;
-    int currentIndex = 0;
-    bool isAnimating = false;
 
     void switchToImage(int newIndex, bool forward);
 };

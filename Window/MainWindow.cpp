@@ -6,9 +6,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     setFixedSize(size()); // 固定窗口大小
 
-    mainWidget = new MainWidget;
-    selectWidget = new SelectWidget;
-    gameWidget = new GameWidget;
+    sound = new Sound;
+    mainWidget = new MainWidget(sound);
+    selectWidget = new SelectWidget(sound);
+    gameWidget = new GameWidget(sound);
     loadingWidget = new QWidget;
     loadingWidget->setStyleSheet(
         "width: 1080px;"
@@ -21,12 +22,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     stackedWidget->addWidget(gameWidget);
     stackedWidget->addWidget(loadingWidget);
     setCentralWidget(stackedWidget); // 将页面管理器显示在窗口
+    sound->playBGM();
 
     connect(mainWidget, &MainWidget::toSelectPage, [this] { stackedWidget->setCurrentIndex(1); });
     connect(selectWidget, &SelectWidget::toMainPage, [this] { stackedWidget->setCurrentIndex(0); });
     connect(selectWidget, &SelectWidget::toGamePage, [this] { gameStart(); });
-    connect(gameWidget, &GameWidget::toSelectPage, [this] { stackedWidget->setCurrentIndex(1); });
     connect(gameWidget, &GameWidget::restart, [this] { gameStart(); });
+    connect(gameWidget, &GameWidget::toSelectPage, [this] {
+        sound->playBGM();
+        stackedWidget->setCurrentIndex(1);
+    });
 }
 
 MainWindow::~MainWindow() {
@@ -35,6 +40,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::gameStart() {
+    sound->stopBGM();
     // 加载动画
     stackedWidget->setCurrentIndex(3);
     QTimer::singleShot(1000, [&] {

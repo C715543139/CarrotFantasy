@@ -18,7 +18,7 @@ class GameWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit GameWidget(QWidget *parent = nullptr);
+    GameWidget(Sound *sound, QWidget *parent = nullptr);
     ~GameWidget();
     void loadGame(int mapIndex);
     void stopGame();
@@ -40,6 +40,7 @@ private:
     bool isPause, isCountDown;
     int count;
     QTimer timer, countTimer;
+    Sound *sound;
     GameManager gameManager;
 };
 
@@ -60,6 +61,7 @@ private:
     bool *isCountDown;
     GameManager *gameManager;
     QGraphicsScene *scene;
+    Sound *sound;
 
     void setMap(int mapIndex);
     void updateView();

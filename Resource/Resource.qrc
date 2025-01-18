@@ -178,4 +178,77 @@
         <file>Game/Path/p1.ini</file>
         <file>Game/Path/p2.ini</file>
     </qresource>
+    <qresource prefix="/sound">
+        <file>Music/Game/CountDown.wav</file>
+        <file>Music/Game/GO.wav</file>
+        <file>Music/Game/Lose.wav</file>
+        <file>Music/Game/MC.wav</file>
+        <file>Music/Game/MenuSelect.wav</file>
+        <file>Music/Game/Perfect.wav</file>
+        <file>Music/Game/Select.wav</file>
+        <file>Music/Game/SelectFault.wav</file>
+        <file>Music/Game/TowerBulid.wav</file>
+        <file>Music/Game/TowerDeselect.wav</file>
+        <file>Music/Game/TowerSelect.wav</file>
+        <file>Music/Game/TowerSell.wav</file>
+        <file>Music/Game/TowerUpdata.wav</file>
+        <file>Music/Towers/BStar.wav</file>
+        <file>Music/Towers/Snow.wav</file>
+        <file>Music/Towers/Star.wav</file>
+        <file>Music/Towers/Sun.wav</file>
+        <file>Music/Main/BGMusic.mp3</file>
+        <file>Music/Game/Crash.wav</file>
+    </qresource>
+    <qresource prefix="/monsterSound">
+        <file>Music/Monsters/Fat241.wav</file>
+        <file>Music/Monsters/Fat242.wav</file>
+        <file>Music/Monsters/Fat341.wav</file>
+        <file>Music/Monsters/Fly151.wav</file>
+        <file>Music/Monsters/Fly152.wav</file>
+        <file>Music/Monsters/Fly161.wav</file>
+        <file>Music/Monsters/Fly162.wav</file>
+        <file>Music/Monsters/Fly163.wav</file>
+        <file>Music/Monsters/Fly252.wav</file>
+        <file>Music/Monsters/Fly261.wav</file>
+        <file>Music/Monsters/Fly262.wav</file>
+        <file>Music/Monsters/Fly263.wav</file>
+        <file>Music/Monsters/Fly351.wav</file>
+        <file>Music/Monsters/Fly352.wav</file>
+        <file>Music/Monsters/Fly361.wav</file>
+        <file>Music/Monsters/Fly362.wav</file>
+        <file>Music/Monsters/Fly363.wav</file>
+        <file>Music/Monsters/Fly661.wav</file>
+        <file>Music/Monsters/Fly662.wav</file>
+        <file>Music/Monsters/Land111.wav</file>
+        <file>Music/Monsters/Land112.wav</file>
+        <file>Music/Monsters/Land113.wav</file>
+        <file>Music/Monsters/Land121.wav</file>
+        <file>Music/Monsters/Land122.wav</file>
+        <file>Music/Monsters/Land131.wav</file>
+        <file>Music/Monsters/Land132.wav</file>
+        <file>Music/Monsters/Land133.wav</file>
+        <file>Music/Monsters/Land211.wav</file>
+        <file>Music/Monsters/Land221.wav</file>
+        <file>Music/Monsters/Land222.wav</file>
+        <file>Music/Monsters/Land231.wav</file>
+        <file>Music/Monsters/Land232.wav</file>
+        <file>Music/Monsters/Land311.wav</file>
+        <file>Music/Monsters/Land312.wav</file>
+        <file>Music/Monsters/Land321.wav</file>
+        <file>Music/Monsters/Land322.wav</file>
+        <file>Music/Monsters/Land323.wav</file>
+        <file>Music/Monsters/Land331.wav</file>
+        <file>Music/Monsters/Land332.wav</file>
+        <file>Music/Monsters/Land333.wav</file>
+        <file>Music/Monsters/Land611.wav</file>
+        <file>Music/Monsters/Land612.wav</file>
+        <file>Music/Monsters/Land613.wav</file>
+        <file>Music/Monsters/Land621.wav</file>
+        <file>Music/Monsters/Land622.wav</file>
+        <file>Music/Monsters/Land623.wav</file>
+        <file>Music/Monsters/Land631.wav</file>
+        <file>Music/Monsters/Land632.wav</file>
+        <file>Music/Monsters/Land633.wav</file>
+        <file>Music/Monsters/LittleBoss.wav</file>
+    </qresource>
 </RCC>

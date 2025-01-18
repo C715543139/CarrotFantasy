@@ -29,5 +29,6 @@ private:
     GameWidget *gameWidget; // 游戏页面
     QWidget *loadingWidget;
     QStackedWidget *stackedWidget; // 页面管理器
+    Sound *sound;
 };
 #endif // MAINWINDOW_H

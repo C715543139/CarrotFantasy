@@ -1,10 +1,10 @@
 #include "GameManager.h"
 
 
-GameManager::GameManager()
+GameManager::GameManager(Sound *sound)
     : coin(0), waveIndex(1), waveMax(15), waveTimer(0),
       monsterCounter(0), monsterKilled(0), monsterTimer(0),
-      nest(0, 0), carrot(0, 0),
+      nest(0, 0), carrot(0, 0), sound(sound),
       tiles(vector(height, vector<Tile>(width))) {
     // 初始化动画
     specialAnime.resize(3);
@@ -48,9 +48,10 @@ bool GameManager::update() {
 
             // 随机选择生成的怪物
             QString name;
-            name = monsterNames[QRandomGenerator::global()->bounded(0, monsterNames.size() - 1)];
+            name = monsterNames[rand() % monsterNames.size()];
             tiles[nest.y][nest.x].monsters.push_back(
                 Monster(nest.y, nest.x, name, tiles[nest.y][nest.x].tileDirection));
+            sound->born();
         }
     }
 
@@ -74,6 +75,7 @@ bool GameManager::monsterMove() {
                     coinChange(coin += monster.value);
                     monsterKilled++;
                     specialTiles.insert({y, x}, {2, 5 * 16 * 2});
+                    sound->monster();
                     continue;
                 }
 
@@ -98,6 +100,7 @@ bool GameManager::monsterMove() {
                     if (newTile.tileType == Tile::CARROT) {
                         monsterKilled++;
                         carrot.hp -= monster.damage;
+                        sound->crash();
 
                         if (carrot.hp <= 0) {
                             lose();
@@ -141,6 +144,7 @@ void GameManager::towerDamage(int y, int x) {
         } else return;
     }
 
+    bool attacked = false;
     if (tower.name == "Sun" || tower.name == "Snow") {
         for (int i = y - tower.atkRange[level]; i <= y + tower.atkRange[level]; i++) {
             for (int j = x - tower.atkRange[level]; j <= x + tower.atkRange[level]; j++) {
@@ -148,6 +152,7 @@ void GameManager::towerDamage(int y, int x) {
                 for (auto &monster: tiles[i][j].monsters) {
                     tower.CDTimer = 1; // 进入CD
                     monster.hp -= tower.atkDamage[level];
+                    attacked = true;
 
                     if (tower.name == "Sun") monster.fired = 500;
                     if (tower.name == "Snow") monster.frozen = 1500;
@@ -167,8 +172,8 @@ void GameManager::towerDamage(int y, int x) {
             int randomIndex = rand() % monsterTiles.size();
             int Y = monsterTiles[randomIndex].first, X = monsterTiles[randomIndex].second;
             for (auto &monster: tiles[Y][X].monsters) {
-                tower.CDTimer = 1;
                 monster.hp -= tower.atkDamage[level];
+                attacked = true;
 
                 if (tower.name == "BStar") {
                     specialTiles.insert({Y, X}, {1, 5 * 16 * 2});
@@ -177,8 +182,10 @@ void GameManager::towerDamage(int y, int x) {
                     specialTiles.insert({Y, X}, {0, 5 * 16 * 2});
                 }
             }
+            tower.CDTimer = 1;
         }
     }
+    if (attacked) sound->tower(tower.name);
 }
 
 void GameManager::init(int mapIndex) {
